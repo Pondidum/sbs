@@ -1,0 +1,31 @@
+
+
+Command: 
+	!bid cancel
+
+Responses: 
+	Bid cancelled.
+	No bid to cancel.
+
+
+
+Command:
+	!bid arg:integer
+
+Responses:
+	Invalid bid "{arg}".
+	Not enough points (you bid "{arg}", you have "{stored}" available.)
+	Bid accepted, "{arg}" points, {Mainspec|Offspec|Unranked}.
+	New bid accepted, "{arg}" points, {Mainspec|Offspec|Unranked}.
+
+
+
+Command:
+	!bid arg1:integer arg2:"mainspec","offspec"
+
+Responses:
+	Invalid Bid "{arg1}".
+	Invalid Bid "{arg2}".
+	Not enough points (you bid "{arg}", you have "{stored}" available.)
+	Bid accepted, "{arg}" points, {Mainspec|Offspec|Unranked}.
+	New bid accepted, "{arg}" points, {Mainspec|Offspec|Unranked}.
