@@ -9,14 +9,14 @@ Notifier.new = function()
 
 
 	local this = {}
-	local prefix = "sbs_bm"
+	local prefix = "sbs_"
 
-	local sendAddonMessage = function(channel, target, message)
+	local sendAddonMessage = function(tag, channel, target, message)
 
 		if channel == "WHISPER" then
-			SendAddonMessage(prefix, message, channel, target)
+			SendAddonMessage(prefix .. tag, message, channel, target)
 		else
-			SendAddonMessage(prefix, message, channel)
+			SendAddonMessage(prefix .. tag, message, channel)
 		end 
 
 	end
@@ -63,7 +63,7 @@ Notifier.new = function()
 
 
 	this.broadcastBidStarted = function(item)
-		sendAddonMessage("RAID", nil, item)
+		sendAddonMessage("bs", "RAID", nil, item)
 
 		local header = "Bid started on %s"
 
@@ -84,6 +84,38 @@ Notifier.new = function()
 			sendRaidMessage( string.sub(priorities, 1, #priorities - 2) )
 		end
 	
+	end
+
+	this.broadcastBidFinished = function(item, winners, runnersUp)
+		sendAddonMessage("bf", "RAID", nil, item)
+		--we are limited to 255 chars, so need to split sending
+
+		local header = "Bid ended on %s"
+
+		if item.count > 1 then
+			header = header .. " x%d"
+		end
+
+		local winners = "Winners: "
+
+		for i, winner in ipairs(winners) do
+			winners = winners .. winner.name .. ", "
+		end
+
+		winners = string.sub(winners, 1, #winners - 2)
+
+		local runners = "Runners up: "
+
+		for i, person in ipairs(runnersUp) do
+			runners = runners .. person.name .. ", "
+		end
+
+		runners = string.sub(runners, 1, #runners - 2)
+
+		sendRaidMessage( string.format(header, item.itemlink, item.count) )
+		sendRaidMessage( winners )
+		sendRaidMessage( runners )
+
 	end
 
 

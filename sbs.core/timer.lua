@@ -4,11 +4,15 @@ local Timer = {
 	new = function(events)
 
 		local events = events
-
 		local this = {}
+
 		local finishTime = nil
+		local onFinish = nil
+
+		local hasBeenExtended = false
 		local active = false
-		local onFinish = onFinish
+
+		
 
 		local SHORT_TIMER = 10
 		local LONG_TIMER = 30
@@ -19,6 +23,8 @@ local Timer = {
  
 			finishTime = GetTime() + SHORT_TIMER
 			active = true
+			hasBeenExtended = false
+
 			onFinish = onFinish
 
 			events:RegisterOnUpdate("BidTimer", onUpdate)
@@ -28,15 +34,27 @@ local Timer = {
 		-- Desc: Resets the timer for a further 30s
 		-- Args:
 		this.extend = function()
-
 			finishTime = GetTime() + LONG_TIMER
-
+			hasBeenExtended = true
 		end
 
 		-- Desc: Stops the timer
 		-- Args:
 		this.finish = function()
 			active = false
+		end
+
+
+		-- Desc: Returns if the timer is currently running
+		-- Args: 
+		this.isRunning = function()
+			return active
+		end
+
+		-- Desc: Returns if the timer has been extended
+		-- Args:
+		this.hasBeenExtended = function()
+			return hasBeenExtended
 		end
 
 

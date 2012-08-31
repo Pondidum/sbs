@@ -1,9 +1,9 @@
 
 local BidHandler = {
 	
-	new = function(config, userData, pointsLog)
+	new = function(config, events, userData, pointsLog)
 
-		local config, userData, pointsLog = config, userData, pointsLog
+		local config, events, userData, pointsLog = config, events, userData, pointsLog
 
 		local ranks = { 
 			mainspec = true,
@@ -12,12 +12,13 @@ local BidHandler = {
 		}
 
 		local this = {}
-		local isBidRunning = false
+		local timer = Timer.new(events)
 		local bidders = {}
+		local bidItem = {}
 		
 		this.cancelBid = function(user)
 
-			if isBidRunning == false then
+			if timer.isRunning == false then
 				return 
 			end
 
@@ -35,7 +36,7 @@ local BidHandler = {
 
 		this.registerBid = function(user, bid, prio)
 
-			if isBidRunning == false then
+			if timer.isRunning == false then
 				return 
 			end
 
@@ -69,45 +70,55 @@ local BidHandler = {
  				notifier.sendBid(user, newBid)
  			end
 
+ 			if not timer.hasBeenExtended then
+ 				timer.extend()
+ 			end
+
 		end
 		
 
+		local decideWinner = function()
 
+		end
 
-		this.startBid = function(items)
+		local onFinish = function()
 
-			if isBidRunning then
+			if timer.isRunning == false then
 				return 
 			end
 
+			local winners = decideWinner()
+
+			for i, winner in ipairs(winners) do
+				
+				local user = userData[winner.name]
+				user.points = user.points - winner.points
+				pointsLog.append(user)
+
+			end
+
+			notifier.broadcastBidFinished(bidItem, winners, runnnersUp)
+			notifier.broadcastPointsChanged(userData)
+
+		end
+
+		this.startBid = function(item)
+
+			if timer.isRunning then
+				return 
+			end
+
+			bidItem = item
 			bidders = {}
-			-- store GetTime()
+			timer.start(onFinish)
 
-			isBidRunning = true
-
-			notifier.broadcastBidStarted(items)
+			notifier.broadcastBidStarted(item)
 
 		end
 
 
 		this.finishBid = function()
-
-			if isBidRunning == false then
-				return 
-			end
-
-			isBidRunning = false
-
-			local winner = decideWinner()
-			local user = userData[winner.name]
-
-			user.points = user.points - winner.points
-
-			pointsLog.append(user)
-
-			notifier.broadcastBidFinished(winner, runnnersUp)
-			notifier.broadcastPointsChanged(userData)
-
+			timer.finish()
 		end
 
 		return this
