@@ -63,7 +63,7 @@ Notifier.new = function()
 
 
 	this.broadcastBidStarted = function(item)
-		sendAddonMessage("bs", "RAID", nil, item)
+		sendAddonMessage("bs", "RAID", nil, string.format("%s:%s:%s", item.id, item.name, item.link))
 
 		local header = "Bid started on %s"
 
@@ -87,8 +87,15 @@ Notifier.new = function()
 	end
 
 	this.broadcastBidFinished = function(item, winners, runnersUp)
-		sendAddonMessage("bf", "RAID", nil, item)
-		--we are limited to 255 chars, so need to split sending
+
+		local getName = function(p) return p.name end
+
+		local addonWinners = table.join(winners, ":", getName)
+		local addonBidders = table.join(runnersUp, ":", getName)
+
+		sendAddonMessage("bf", "RAID", nil, string.format("%s:%s:%s", item.id, item.name, item.link))
+		sendAddonMessage("bfw", "RAID", nil, string.format("%s:%s", item.id, addonWinners))
+		sendAddonMessage("bfb", "RAID", nil, string.format("%s:%s", item.id, addonBidders))
 
 		local header = "Bid ended on %s"
 
@@ -96,25 +103,12 @@ Notifier.new = function()
 			header = header .. " x%d"
 		end
 
-		local winners = "Winners: "
+		local raidWinners = "Winners: " .. table.join(winners, ", ", getName)
+		local raidBidders = "Runners up: " .. table.join(runnersUp, ", ", getName)
 
-		for i, winner in ipairs(winners) do
-			winners = winners .. winner.name .. ", "
-		end
-
-		winners = string.sub(winners, 1, #winners - 2)
-
-		local runners = "Runners up: "
-
-		for i, person in ipairs(runnersUp) do
-			runners = runners .. person.name .. ", "
-		end
-
-		runners = string.sub(runners, 1, #runners - 2)
-
-		sendRaidMessage( string.format(header, item.itemlink, item.count) )
-		sendRaidMessage( winners )
-		sendRaidMessage( runners )
+		sendRaidMessage(string.format(header, item.link, item.count))
+		sendRaidMessage(raidWinners)
+		sendRaidMessage(raidBidders)
 
 	end
 
@@ -126,4 +120,4 @@ Notifier.new = function()
 
 	return this
 
-end
+endp

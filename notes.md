@@ -1,4 +1,22 @@
+Guild Notes
+===========
 
+Public: Elemental[Enhancement]
+Officer: 123 progress
+
+Public: No Spec
+Officer: 123 bethlac
+
+Public: Arms[Prot]
+Officer: 7 zonoz
+
+
+
+
+
+
+Whisper Commands
+================
 
 Command: 
 	!bid cancel
