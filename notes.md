@@ -12,6 +12,15 @@ Officer: 7 zonoz
 
 
 
+Addon Messages
+=============
+
+Prefix	 	name 			data							example
+-------------------------------------------------------------------
+sbs_bs		bid start		itemID:itemName:itemLink		7073:Broken Fang:|cff9d9d9d|Hitem:7073:0:0:0:0:0:0:0:80:0|h[Broken Fang]|h|r
+sbs_bf		bid finish		itemID:itemName:itemLink		7073:Broken Fang:|cff9d9d9d|Hitem:7073:0:0:0:0:0:0:0:80:0|h[Broken Fang]|h|r
+sbs_bfw		bid winners		itemID:winner1:winner2:...		7073:Darkend:Somniac
+sbs_bfb		bid bidders		itemID:bidder1:bidder2:...		7073:Frenca:Snypee:Derchizul:Vashor
 
 
 
