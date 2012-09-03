@@ -113,6 +113,15 @@ Notifier.new = function()
 	end
 
 
+	this.broadcastLootUpdated = function(items)
+
+		local itemIDs = table.join(items, ":", function(i) return i.id end)
+		
+		sendAddonMessage("lu", "RAID", nil, itemIDs)
+
+	end
+
+
 	--singleton...
 	Notifier.new = function() 
 		return this 

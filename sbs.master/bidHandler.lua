@@ -1,9 +1,9 @@
 
 local BidHandler = {
 	
-	new = function(config, events, userData, pointsLog)
+	new = function(config, events, notifier, userData, pointsLog)
 
-		local config, events, userData, pointsLog = config, events, userData, pointsLog
+		local config, events, notifier, userData, pointsLog = config, events, notifier, userData, pointsLog
 
 		local ranks = { 
 			mainspec = true,
