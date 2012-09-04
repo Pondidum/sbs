@@ -4,7 +4,7 @@ local RosterData = {
 	
 	new = function()
 
-		local config, noteParser = ns.config, ns.lib.parser
+		local noteParser = ns.lib.parser
 
 		local this = {}
 		local playerData = {}
@@ -23,19 +23,17 @@ local RosterData = {
 			for i = 1, GetNumGuildMembers() do
 
 				local name, rank, _, _, _, _, note, officernote = GetGuildRosterInfo(i)
+				local spec, offspec, tag, points = noteParser.parse(note, officernote)
 
-				if config.ranks[rank] then
-					local spec, offspec, tag, points = noteParser.parse(note, officernote)
+				playerData[name] = {
+					name = name,
+					rank = rank,
+					spec = spec,
+					offspec = offspec,
+					tag = tag,
+					points = points
+				}
 
-					playerData[name] = {
-						name = name,
-						spec = spec,
-						offspec = offspec,
-						tag = tag,
-						points = points
-					}
-
-				end
 				
 			end
 

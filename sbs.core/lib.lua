@@ -10,6 +10,7 @@ local lib = {
 		this.parser = ns.NoteParser
 		this.events = ns.Events.new()
 		this.timer = ns.Timer
+		this.roster = ns.RosterData.new()
 		
 		return this
 

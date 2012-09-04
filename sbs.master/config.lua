@@ -1,11 +1,9 @@
 local addon, ns = ...
 
-local config = {
+ns.config = {
 	ranks = { 
 		mainspec = true,
 		offspec = true,
 		unranked = true,
 	},
 }
-
-ns.config = config
