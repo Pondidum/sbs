@@ -3,5 +3,6 @@
 ## Title: sbs.master
 ## Author: Darkend/Slap/Horde/Zenedar/EU
 ## Version: 0.1
+## RequiredDeps: sbs.core
 
 sbs.master.xml
