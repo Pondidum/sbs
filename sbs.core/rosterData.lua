@@ -1,12 +1,22 @@
+local addon, ns = ...
 
 local RosterData = {
 	
-	New = function(config)
+	new = function()
+
+		local config, noteParser = ns.config, ns.lib.parser
 
 		local this = {}
 		local playerData = {}
 
-		local loadPoints = function()
+		local updatableFields = {
+			spec = true,
+			offspec = true,
+			tag = true,
+			points = true,
+		}
+
+		this.loadPoints = function()
 
 			GuildRoster()
 
@@ -15,7 +25,7 @@ local RosterData = {
 				local name, rank, _, _, _, _, note, officernote = GetGuildRosterInfo(i)
 
 				if config.ranks[rank] then
-					local spec, offspec, tag, points = NoteParser.Parse(note, officernote)
+					local spec, offspec, tag, points = noteParser.parse(note, officernote)
 
 					playerData[name] = {
 						name = name,
@@ -24,14 +34,14 @@ local RosterData = {
 						tag = tag,
 						points = points
 					}
+
 				end
 				
 			end
 
 		end
-		this.LoadPoints = loadPoints
 
-		local savePoints = function()
+		this.savePoints = function()
 
 			GuildRoster()
 
@@ -40,13 +50,7 @@ local RosterData = {
 				local name = GetGuildRosterInfo(i)
 				local data = playerData[name]
 
-				local public = data.spec
-
-				if data.offspec then
-					public = "%s[%s]":format(data.spec, data.offspec)
-				end
-
-				local officer = "!%s %s":format(data.tag, data.points)
+				local public, officer = noteParser.create(data.spec, data.offspec, data.tag, data.points) 
 
 				GuildRosterSetPublicNote(public)
 				GuildRosterSetOfficerNote(officer)
@@ -54,9 +58,33 @@ local RosterData = {
 			end
 
 		end
-		this.SavePoints = savePoints
+
+		this.getPlayerData = function(name)
+			return playerData[name]
+		end
+
+		this.setPlayerData = function(data)
+
+			if not data then 
+				return 
+			end
+
+			local player = playerData[data.name]
+			
+			if not player then
+				return 
+			end
+
+			for key, val in pairs(updatableFields) do
+				player[key] = data[key]	
+			end
+
+		end
 
 		return this
+
 	end,
 
 }
+
+ns.RosterData = RosterData

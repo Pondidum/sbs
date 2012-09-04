@@ -1,9 +1,11 @@
+local addon, ns = ...
 
 local Timer = {
 	
-	new = function(events)
+	new = function(name)
 
-		local events = events
+		local name = name
+		local events = ns.lib.events
 		local this = {}
 
 		local finishTime = nil
@@ -27,7 +29,7 @@ local Timer = {
 
 			onFinish = onFinish
 
-			events:RegisterOnUpdate("BidTimer", onUpdate)
+			events:RegisterOnUpdate(name, onUpdate)
 
 		end
 
@@ -61,7 +63,7 @@ local Timer = {
 		local onUpdate = function()
 
 			if active == false then
-				events:UnRegisterOnUpdate("BidTimer", onUpdate)
+				events:UnRegisterOnUpdate(name, onUpdate)
 
 				if onFinish then
 					onFinish()
@@ -80,3 +82,5 @@ local Timer = {
 
 	end,
 }
+
+ns.Timer = Timer

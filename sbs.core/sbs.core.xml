@@ -1,0 +1,9 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+	
+	<Script file="events.lua"/>
+	<Script file="noteParser.lua"/>
+	<Script file="timer.lua"/>
+
+	<Script file="lib.lua"/>	
+
+</Ui>
