@@ -1,0 +1,7 @@
+## Interface: 50400
+## DefaultState: Enabled
+## Title: sbs.master
+## Author: Darkend/Slap/Horde/Zenedar/EU
+## Version: 0.1
+
+sbs.master.xml
