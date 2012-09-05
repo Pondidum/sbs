@@ -6,9 +6,9 @@ local BidHandler = {
 		local config, events, notifier, userData, pointsLog = config, events, notifier, userData, pointsLog
 
 		local ranks = { 
-			mainspec = true,
-			offspec = true,
-			unranked = true,
+			mainspec = 1,
+			offspec = 2.25,
+			unranked = 2.25,
 		}
 
 		local this = {}
@@ -34,7 +34,7 @@ local BidHandler = {
 		end
 
 
-		this.registerBid = function(user, bid, prio)
+		this.registerBid = function(user, bid, rank)
 
 			if timer.isRunning == false then
 				return 
@@ -45,17 +45,19 @@ local BidHandler = {
 				return
 			end
 
-			if prio == nil or prio == '' then
-				prio = "mainspec"
+			if rank == nil or rank == '' then
+				rank = "mainspec"
 			end
 
-			if not ranks[prio] then
-				notifier.sendBidInvalid(user, prio)
+			rank = string.lower(rank)
+
+			if not ranks[rank] then
+				notifier.sendBidInvalid(user, rank)
 				return
 			end
 
 			local previousBid = bidders[user]
- 			local newBid = { points = bid, rank = prio }
+ 			local newBid = { points = bid, rank = rank, name = user }
 
 			if userData[user].points < bid then
 				notifier.sendBidNotEnoughPoints(user, newBid, userData[user].points)
@@ -77,17 +79,43 @@ local BidHandler = {
 		end
 		
 
-		local decideWinner = function()
+		local decideWinners = function()
+
+			if #bidders == 0 then
+				return nil
+			end
+
+			--create weightedPoints, mainspec > offspec | unranked
+			for user, data in pairs(bidders) do
+				data.weightedPoints = data.points / ranks[data.rank]
+			end
+
+			-- sort the winners table based on weightedPoints
+			local users = {}
+			for user, _ in pairs(bidders) do
+				table.insert(users, user)
+			end
+
+			table.sort(users, function(x, y) 
+				return bidders[x].weightedPoints > bidders[y].weightedPoints
+			end)
+
+
+
+			if #bidders == 1 then
+				for user, data in pairs(bidders) do
+					return data 
+				end
+			end
+
+			-- return top x, where x == bidItem.count
+			-- handle 2 users with same weightedPoints
 
 		end
 
 		local onFinish = function()
 
-			if timer.isRunning == false then
-				return 
-			end
-
-			local winners = decideWinner()
+			local winners = decideWinners()
 
 			for i, winner in ipairs(winners) do
 				
