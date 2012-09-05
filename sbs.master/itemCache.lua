@@ -1,14 +1,17 @@
+local addon, ns = ...
+
 local ItemCache = {
 	
 	new = function()
 
-		local this = {}
-		local items = {}	--saved vars, not sure if to explicit save/load
+		local events = ns.lib.events 
 
+		local this = {}
+		
 		this.getItemInfo = function(itemID)
 
-			if items[itemID] then
-				return items[itemID]
+			if sbsMasterDatabase.items[itemID] then
+				return sbsMasterDatabase.items[itemID]
 			end
 
 			return {}
@@ -17,11 +20,13 @@ local ItemCache = {
 
 		this.addItem = function(item)
 
-			items[itemID] = item
+			sbsMasterDatabase.items[itemID] = item
 
 		end
 
-		
+		return this
 
 	end,
 }
+
+ns.ItemCache = ItemCache
