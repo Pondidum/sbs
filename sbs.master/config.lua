@@ -2,8 +2,8 @@ local addon, ns = ...
 
 ns.config = {
 	ranks = { 
-		mainspec = true,
-		offspec = true,
-		unranked = true,
+		mainspec = 1,
+		offspec = 2.25,
+		unranked = 2.25,
 	},
 }

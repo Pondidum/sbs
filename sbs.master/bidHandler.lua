@@ -100,8 +100,6 @@ local BidHandler = {
 				return bidders[x].weightedPoints > bidders[y].weightedPoints
 			end)
 
-
-
 			if #bidders == 1 then
 				for user, data in pairs(bidders) do
 					return data 
