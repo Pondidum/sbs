@@ -81,34 +81,10 @@ local BidHandler = {
 
 		local decideWinners = function()
 
-			if #bidders == 0 then
-				return nil
-			end
+			local stats = ns.BidStatistics.new(bidders)
 
-			--create weightedPoints, mainspec > offspec | unranked
-			for user, data in pairs(bidders) do
-				data.weightedPoints = data.points / ranks[data.rank]
-			end
-
-			-- sort the winners table based on weightedPoints
-			local users = {}
-			for user, _ in pairs(bidders) do
-				table.insert(users, user)
-			end
-
-			table.sort(users, function(x, y) 
-				return bidders[x].weightedPoints > bidders[y].weightedPoints
-			end)
-
-			if #bidders == 1 then
-				for user, data in pairs(bidders) do
-					return data 
-				end
-			end
-
-			-- return top x, where x == bidItem.count
-			-- handle 2 users with same weightedPoints
-
+			return stats.getWinners(bidItem.count)
+			
 		end
 
 		local onFinish = function()
