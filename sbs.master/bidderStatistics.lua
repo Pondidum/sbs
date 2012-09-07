@@ -8,6 +8,7 @@ local BidderStatistics = {
 		
 		local byBid = {}
 		local ranks = ns.config.ranks
+		local messages = {}
 
 		local this = {}
 
@@ -17,7 +18,7 @@ local BidderStatistics = {
 			count = count or 1 
 
 			-- no winners
-			if #users == 0 then
+			if #byBid == 0 then
 				return {}
 			end
 
@@ -32,6 +33,8 @@ local BidderStatistics = {
 				local points = entry.points
 				local users = entry.users
 
+				table.insert(messages, string.format("%d bidders at %d points: %s", #users, points, table.join(users, ", ", function(x) return x.name end)))
+
 				if #users == 1 then		--one person in this point category
 
 					table.insert(winners, users[1])
@@ -39,21 +42,41 @@ local BidderStatistics = {
 				elseif #users <= count - #winners then	--everyone in this point category wins
 
 					for j, user in ipairs(users) do
-						table.insert(winners, user])
+						table.insert(winners, user)
 					end
 
-				else 	--some people will win
+				else 	--some people will win					
+
+					local remainingWins = count - #winners
+					local potentialWinners = {}
+
+					for j, user in ipairs(users) do
+						table.insert(potentialWinners, user)
+					end
+
+					for c = 1, remainingWins do
+
+						local index = math.random(1, #potentialWinners)
+						
+						local currentRollers = table.join(potentialWinners, ", ", function(x) return x.name end)
+						table.insert(messages, string.format(" - Rolling 1-%d (%s): %d", #potentialWinners, currentRollers, index))
+
+						table.insert(winners, potentialWinners[index])
+						table.remove(potentialWinners, index)
+
+					end
 
 				end
 
 
 			end
 
+			return winners
 
+		end
 
-			-- return top x, where x == bidItem.count
-			-- handle 2 users with same weightedPoints
-
+		this.getMessages = function()
+			return messages
 		end
 
 		local onCreate = function()
@@ -95,6 +118,26 @@ ns.BidderStatistics = BidderStatistics
 
 
 --test code:
+-------------------------------------------------------------------------------
+
+function table.join(self, separator, selector)
+
+	if type(self) ~= "table" then
+		assert("self must be a table")
+	end
+
+	separator = separator or ''
+	selector = selector or function(val) return tostring(val) end
+
+	local result = ''
+
+	for i, v in ipairs(self) do
+		result = result .. selector(v) .. ", "
+	end
+
+	return string.sub(result, 1, #result - #separator)
+
+end
 
 ns.config = {
 	ranks = { 
@@ -105,7 +148,22 @@ ns.config = {
 }
 
 local bidders = {
-	["darkend"] = { name = "darkend", points = 15, rank = "mainspec"},
-	["ayiishi"] = { name = "ayiishi", points = 15, rank = "mainspec"},
-	["frenca"] = { name = "frenca", points = 13, rank = "offspec"},
+	["darkend"] = { name = "darkend", points = 4, rank = "mainspec"},
+	["ayiishi"] = { name = "ayiishi", points = 4, rank = "mainspec"},
+	["frenca"] = { name = "frenca", points = 9, rank = "offspec"},
+	["somniac"] = { name = "somniac", points = 9, rank = "offspec"},
 }
+
+
+local bs = ns.BidderStatistics.new(bidders)
+local w = bs.getWinners(3)
+
+for i,v in ipairs(bs.getMessages()) do
+	print(i,v)
+end
+
+print("winners:", #w)
+
+for i,v in ipairs(w) do
+	print(i,v.name)
+end
