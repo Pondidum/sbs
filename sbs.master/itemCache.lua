@@ -29,4 +29,4 @@ local ItemCache = {
 	end,
 }
 
-ns.ItemCache = ItemCache
+ns.itemCache = ItemCache.new()
