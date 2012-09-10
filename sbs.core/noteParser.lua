@@ -25,7 +25,7 @@ local NoteParser = {
 
 		local public = spec
 
-		if offspec then
+		if offspec ~= nil and offspec ~= '' then
 			public = string.format("%s[%s]", spec, offspec)
 		end
 

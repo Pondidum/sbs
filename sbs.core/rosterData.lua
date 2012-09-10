@@ -16,7 +16,14 @@ local RosterData = {
 			points = true,
 		}
 
-		this.loadPoints = function()
+		local defaults = {
+			spec = "No Spec",
+			offspec = "",
+			tag = "X",
+			points = 0,
+		}
+
+		this.loadPoints = function(ranks)
 
 			GuildRoster()
 
@@ -25,16 +32,17 @@ local RosterData = {
 				local name, rank, _, _, _, _, note, officernote = GetGuildRosterInfo(i)
 				local spec, offspec, tag, points = noteParser.parse(note, officernote)
 
-				playerData[name] = {
-					name = name,
-					rank = rank,
-					spec = spec,
-					offspec = offspec,
-					tag = tag,
-					points = points
-				}
-
-				
+				if ranks == nil or ranks[rank] then
+					playerData[name] = {
+						name = name,
+						rank = rank,
+						spec = spec or defaults.spec,
+						offspec = offspec or defaults.offspec,
+						tag = tag or defaults.tag,
+						points = points or defaults.points,
+					}
+				end
+					
 			end
 
 		end
@@ -48,10 +56,12 @@ local RosterData = {
 				local name = GetGuildRosterInfo(i)
 				local data = playerData[name]
 
-				local public, officer = noteParser.create(data.spec, data.offspec, data.tag, data.points) 
+				if data then 
+					local public, officer = noteParser.create(data.spec, data.offspec, data.tag, data.points) 
 
-				GuildRosterSetPublicNote(public)
-				GuildRosterSetOfficerNote(officer)
+					GuildRosterSetPublicNote(i, public)
+					GuildRosterSetOfficerNote(i, officer)
+				end
 
 			end
 
