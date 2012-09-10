@@ -33,14 +33,16 @@ local RosterData = {
 				local spec, offspec, tag, points = noteParser.parse(note, officernote)
 
 				if ranks == nil or ranks[rank] then
+
 					playerData[name] = {
-						name = name,
-						rank = rank,
-						spec = spec or defaults.spec,
+						name 	= name,
+						rank 	= rank,
+						spec 	= spec 	  or defaults.spec,
 						offspec = offspec or defaults.offspec,
-						tag = tag or defaults.tag,
-						points = points or defaults.points,
+						tag 	= tag 	  or defaults.tag,
+						points 	= points  or defaults.points,
 					}
+
 				end
 					
 			end
@@ -68,7 +70,16 @@ local RosterData = {
 		end
 
 		this.getPlayerData = function(name)
-			return playerData[name]
+
+			local data = playerData[name]
+			local player = {}
+
+			for key, val in pairs(data) do
+				player[key] = data[key]	
+			end
+
+			return player
+			
 		end
 
 		this.setPlayerData = function(data)
