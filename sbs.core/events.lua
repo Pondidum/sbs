@@ -26,7 +26,7 @@ local EventSource = {
 
 		end
 
-		this.unregister = function(event, key)
+		this.unregisterFor = function(event, key)
 
 			if events[event] and events[event][key] then
 				events[event][key] = nil
@@ -38,7 +38,7 @@ local EventSource = {
 
 			if events[event] then
 
-				for _, handler in pairs(events) do
+				for _, handler in pairs(events[event]) do
 					handler(self, event, ...)
 				end
 

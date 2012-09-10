@@ -46,19 +46,19 @@ local Notifier = {
 
 
 		this.sendBidInvalid = function(user, bid)
-			sendWhisperMessage(user, "Invalid bid %s.":format(bid))
+			sendWhisperMessage(user, string.format("Invalid bid %s.", bid))
 		end
 
 		this.sendBidNotEnoughPoints = function(user, newBid, available)
-			sendWhisperMessage(user, "Not enough points (you bid %d, you have %d available.)":format(bid.points, available)
+			sendWhisperMessage(user, string.format("Not enough points (you bid %d, you have %d available.)", bid.points, available))
 		end
 
 		this.sendBid = function(user, newBid)
-			sendWhisperMessage(user, "Bid accepted, %d points, %s.":format(newBid.points, newBid.rank))
+			sendWhisperMessage(user, string.format("Bid accepted, %d points, %s.", newBid.points, newBid.rank))
 		end
 
 		this.sendBidUpdate = function(user, newBid) 
-			sendWhisperMessage(user, "New bid accepted, %d points, %s.":format(newBid.points, newBid.rank))
+			sendWhisperMessage(user, string.format("New bid accepted, %d points, %s.", newBid.points, newBid.rank))
 		end
 
 

@@ -11,7 +11,7 @@ local onAddonLoaded = function(sender, event, name)
 		return
 	end
 
-	events.unregsisterFor("ADDON_LOADED", "sbs.master.init.addonloaded")
+	events.unregisterFor("ADDON_LOADED", "sbs.master.init.addonloaded")
 
 	if sbsMasterDatabase == nil then
 		sbsMasterDatabase = {}
