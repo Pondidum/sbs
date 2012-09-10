@@ -1,6 +1,7 @@
 ## Interface: 50400
 ## DefaultState: Enabled
 ## Title: sbs.core
+## Notes: Slap Bid System core module
 ## Author: Darkend/Slap/Horde/Zenedar/EU
 ## Version: 0.1
 

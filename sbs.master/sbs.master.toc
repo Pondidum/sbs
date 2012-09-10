@@ -1,6 +1,7 @@
 ## Interface: 50400
 ## DefaultState: Enabled
 ## Title: sbs.master
+## Notes: Slap Bid System Bid Master
 ## Author: Darkend/Slap/Horde/Zenedar/EU
 ## Version: 0.1
 ## RequiredDeps: sbs.core
