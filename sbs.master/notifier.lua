@@ -63,7 +63,7 @@ Notifier.new = function()
 
 
 	this.broadcastBidStarted = function(item)
-		sendAddonMessage("bs", "RAID", nil, string.format("%s:%s:%s", item.id, item.name, item.link))
+		sendAddonMessage("bs", "RAID", nil, string.format("%s¬%s¬%s", item.id, item.name, item.link))
 
 		local header = "Bid started on %s"
 
@@ -90,12 +90,12 @@ Notifier.new = function()
 
 		local getName = function(p) return p.name end
 
-		local addonWinners = table.join(winners, ":", getName)
-		local addonBidders = table.join(runnersUp, ":", getName)
+		local addonWinners = table.join(winners, "¬", getName)
+		local addonBidders = table.join(runnersUp, "¬", getName)
 
-		sendAddonMessage("bf", "RAID", nil, string.format("%s:%s:%s", item.id, item.name, item.link))
-		sendAddonMessage("bfw", "RAID", nil, string.format("%s:%s", item.id, addonWinners))
-		sendAddonMessage("bfb", "RAID", nil, string.format("%s:%s", item.id, addonBidders))
+		sendAddonMessage("bf", "RAID", nil, string.format("%s¬%s¬%s", item.id, item.name, item.link))
+		sendAddonMessage("bfw", "RAID", nil, string.format("%s¬%s", item.id, addonWinners))
+		sendAddonMessage("bfb", "RAID", nil, string.format("%s¬%s", item.id, addonBidders))
 
 		local header = "Bid ended on %s"
 
@@ -115,7 +115,7 @@ Notifier.new = function()
 
 	this.broadcastLootUpdated = function(items)
 
-		local itemIDs = table.join(items, ":", function(i) return i.id end)
+		local itemIDs = table.join(items, "¬", function(i) return i.id end)
 		
 		sendAddonMessage("lu", "RAID", nil, itemIDs)
 
