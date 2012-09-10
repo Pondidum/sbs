@@ -1,9 +1,11 @@
+local addon, ns = ...
 
 local BidHandler = {
 	
-	new = function(config, events, notifier, userData, pointsLog)
+	new = function()
 
-		local config, events, notifier, userData, pointsLog = config, events, notifier, userData, pointsLog
+		local config, notifier, userData, pointsLog = ns.config, ns.notifier, ns.userData, ns.pointsLog
+		local timer = ns.lib.timer
 
 		local ranks = { 
 			mainspec = 1,
@@ -12,7 +14,7 @@ local BidHandler = {
 		}
 
 		local this = {}
-		local timer = Timer.new(events)
+		local timer = timer.new("bidMaster")
 		local bidders = {}
 		local bidItem = {}
 		

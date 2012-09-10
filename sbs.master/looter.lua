@@ -1,10 +1,10 @@
-
+local addon, ns = ...
 
 local Looter = {
 	
-	new = function(config, events, notifier)
+	new = function()
 
-		local config, events, notifier = config, events, notifier
+		local config, notifier = ns.config, ns.notifier
 
 		local this = {}
 		local items = {}
