@@ -15,7 +15,7 @@ local NoteParser = {
 			spec = "No Spec"
 		end
 
-		local tag, points = select(3, officernote:find("(!.*)%s(-*%d+)"))
+		local tag, points = select(3, officernote:find("!(.*)%s(-*%d+)"))
 
 		return spec, offspec, tag, points
 
