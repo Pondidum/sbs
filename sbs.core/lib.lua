@@ -5,19 +5,19 @@ local lib = {
 	
 	new = function()
 
-		local this = {}
+		ns.lib = {}
 
-		this.parser = ns.NoteParser
-		this.events = ns.Events.new()
-		this.timer = ns.Timer
-		this.roster = ns.RosterData.new()
+		ns.lib.parser = ns.NoteParser
+		ns.lib.events = ns.EventSource.new()
+		ns.lib.timer = ns.Timer
+		ns.lib.roster = ns.RosterData.new()
 		
-		return this
+		return ns.lib
 
 	end,
 
 }
 
-ns.lib = lib.new()
 
-sbsLib = ns.lib 	--global for other addons
+
+sbsLib = lib.new() 	--global for other addons

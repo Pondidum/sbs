@@ -8,7 +8,7 @@ local EventSource = {
 		local events = {}
 		local frame = CreateFrame("Frame")
 
-		this.registerFor(event, handler, key)
+		this.registerFor = function(event, handler, key)
 
 			if not event then return end
 			if not handler then return end 

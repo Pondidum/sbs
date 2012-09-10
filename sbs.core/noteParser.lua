@@ -26,10 +26,10 @@ local NoteParser = {
 		local public = spec
 
 		if offspec then
-			public = "%s[%s]":format(spec, offspec)
+			public = string.format("%s[%s]", spec, offspec)
 		end
 
-		local officer = "!%s %s":format(tag, points)
+		local officer = string.format("!%s %s", tag, points)
 
 		return public, officer
 

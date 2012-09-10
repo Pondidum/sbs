@@ -3,6 +3,7 @@
 	<Script file="events.lua"/>
 	<Script file="noteParser.lua"/>
 	<Script file="timer.lua"/>
+	<Script file="rosterData.lua"/>
 
 	<Script file="lib.lua"/>	
 

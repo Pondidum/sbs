@@ -2,7 +2,10 @@
 	"folders":
 	[
 		{
-			"path": "../sbs"
+			"path": "sbs.core"
+		},
+		{
+			"path": "sbs.master"
 		}
 	]
 }
