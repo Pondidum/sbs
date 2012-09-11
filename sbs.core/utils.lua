@@ -6,12 +6,12 @@ function table.join(self, separator, selector)
 	end
 
 	separator = separator or ''
-	selector = selector or function(val) return tostring(val) end
+	selector = selector or function(val) return val end
 
 	local result = ''
 
-	for i, v in ipairs(self) do
-		result = result .. selector(v) .. ", "
+	for k, v in pairs(self) do
+		result = result .. tostring(selector(v)) .. separator
 	end
 
 	return string.sub(result, 1, #result - #separator)
@@ -19,10 +19,14 @@ function table.join(self, separator, selector)
 end
 
 
--- local test = {"123", "456", "789"}
--- local items = {
--- 	{a=123, b=789},
--- 	{a=456, b=456},
--- 	{a=789, b=123},
--- }
--- print(table.join(items, ", ", function(x) return x.b end))
+function table.print(t)
+  
+  print("{")
+  
+  for k, v in pairs(t) do
+	print(string.format("  [%s]: %s", k, v))
+  end
+  
+  print("}")
+
+end
