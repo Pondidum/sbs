@@ -10,8 +10,13 @@ local lib = {
 		ns.lib.parser = ns.NoteParser
 		ns.lib.events = ns.EventSource.new()
 		ns.lib.timer = ns.Timer
-		ns.lib.roster = ns.RosterData.new()
+		ns.lib.guildRoster = ns.GuildRosterData.new()
 		
+
+		ns.lib.print = function(...)
+			print("|cff33ff99sbs:|r", ...)
+		end
+
 		return ns.lib
 
 	end,

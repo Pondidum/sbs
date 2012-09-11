@@ -1,6 +1,6 @@
 local addon, ns = ...
 
-local RosterData = {
+local GuildRosterData = {
 	
 	new = function()
 
@@ -23,9 +23,11 @@ local RosterData = {
 			points = 0,
 		}
 
-		this.loadPoints = function(ranks)
+		this.loadPoints = function(ranks, raidMembers)
 
 			GuildRoster()
+
+			local loadedCount = 0
 
 			for i = 1, GetNumGuildMembers() do
 
@@ -34,18 +36,26 @@ local RosterData = {
 
 				if ranks == nil or ranks[rank] then
 
-					playerData[name] = {
-						name 	= name,
-						rank 	= rank,
-						spec 	= spec 	  or defaults.spec,
-						offspec = offspec or defaults.offspec,
-						tag 	= tag 	  or defaults.tag,
-						points 	= points  or defaults.points,
-					}
+					if raidMembers == nil or raidMembers[name] then
+
+						loadedCount = loadedCount + 1
+
+						playerData[name] = {
+							name 	= name,
+							rank 	= rank,
+							spec 	= spec 	  or defaults.spec,
+							offspec = offspec or defaults.offspec,
+							tag 	= tag 	  or defaults.tag,
+							points 	= points  or defaults.points,
+						}
+
+					end
 
 				end
 					
 			end
+
+			ns.lib.print(string.format("%d player's points loaded.", loadedCount))
 
 		end
 
@@ -106,4 +116,4 @@ local RosterData = {
 
 }
 
-ns.RosterData = RosterData
+ns.GuildRosterData = GuildRosterData
