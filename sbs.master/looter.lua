@@ -4,7 +4,7 @@ local Looter = {
 	
 	new = function()
 
-		local config, notifier = ns.config, ns.notifier
+		local notifier = ns.notifier
 
 		local this = {}
 		local uniqueItems = {}
