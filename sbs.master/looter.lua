@@ -7,7 +7,7 @@ local Looter = {
 		local config, notifier = ns.config, ns.notifier
 
 		local this = {}
-		local items = {}
+		local uniqueItems = {}
 
 		local createItem = function(itemLink, texture)
 
@@ -26,7 +26,7 @@ local Looter = {
 
 		local readLoot = function()
 						
-			for i = 1, GetNumLootItems()
+			for i = 1, GetNumLootItems() do
 
 				local link = GetLootSlotLink(i)
 				local texture, item, quantity, quality, locked = GetLootSlotInfo(i)
@@ -47,23 +47,37 @@ local Looter = {
 
 		end
 
-		local addLoot = function()
+		local broadcastLoot = function()
+			
+			for k,v in pairs(uniqueItems) do
 
-			readLoot()
-			notifier.broadcastLootUpdated(items)
+				notifier.broadcastLootUpdated(uniqueItems)
+				break
+
+			end
 
 		end
-		this.addLoot = addLoot
 
-		local loadLoot = function()
+		this.addLoot = function()
 
-			local items = {}
+			readLoot()
+			broadcastLoot()
+
+		end
+
+		this.loadLoot = function()
+
+			uniqueItems = {}
 			
 			readLoot()
-			notifier.broadcastLootUpdated(items)
+			broadcastLoot()
 			
 		end
-		this.loadLoot = loadLoot
-		
+
+		return this
+
 	end,
 }
+
+ns.looter = Looter.new()
+ns.lib.looter = ns.looter
