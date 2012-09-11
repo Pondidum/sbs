@@ -12,12 +12,12 @@ local Looter = {
 		local createItem = function(itemLink, texture)
 
 			--http://www.wowwiki.com/ItemLink
-			local _, _, color, ltype, id, enchant, gem1, gem2, gem3, gem4, suffix, unique, linkLvl, name = string.find(itemLink, "|?c?f?f?(%x*)|?H?([^:]*):?(%d+):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%-?%d*):?(%-?%d*):?(%d*)|?h?%[?([^%[%]]*)%]?|?h?|?r?")
+			local _, _, color, ltype, id = string.find(itemLink, "|?c?f?f?(%x*)|?H?([^:]*):?(%d+)")
 
 			return {
 				id = id,
 				count = 1,
-				name = name,
+				name = GetItemInfo(id),
 				link = itemLink,
 				texture = texture,
 			}
@@ -72,6 +72,14 @@ local Looter = {
 			readLoot()
 			broadcastLoot()
 			
+		end
+
+		this.report = function()
+
+			for k,v in pairs(uniqueItems) do
+				table.print(v)
+			end
+
 		end
 
 		return this
