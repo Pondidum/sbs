@@ -4,7 +4,12 @@ local BidHandler = {
 	
 	new = function()
 
-		local config, notifier, userData, pointsLog = ns.config, ns.notifier, ns.userData, ns.pointsLog
+		--local config, notifier, userData, pointsLog = ns.config, ns.notifier, ns.userData, ns.pointsLog
+
+		local notifier = ns.notifier
+		local userData = ns.lib.guildRoster
+		local raidData = ns.raidRoster
+
 		local timer = ns.lib.timer
 
 		local ranks = { 
@@ -17,33 +22,34 @@ local BidHandler = {
 		local timer = timer.new("bidMaster")
 		local bidders = {}
 		local bidItem = {}
+		local cancelling = false
 		
-		this.cancelBid = function(user)
+		this.unregisterBid = function(name)
 
-			if timer.isRunning == false then
+			if timer.isRunning() == false then
 				return 
 			end
 
-			if bidders[user] then
+			if bidders[name] then
 
-				bidders[user] = nil
-				notifier.sendBidCancelledSuccess(user)
+				bidders[name] = nil
+				notifier.sendBidCancelledSuccess(name)
 
 			else
-				notifier.sendBidCancelledFail(user)				
+				notifier.sendBidCancelledFail(name)				
 			end
 
 		end
 
 
-		this.registerBid = function(user, bid, rank)
+		this.registerBid = function(name, bid, rank)
 
-			if timer.isRunning == false then
+			if timer.isRunning() == false then
 				return 
 			end
 
 			if type(bid) ~= "number" then
-				notifier.sendBidInvalid(user, bid)
+				notifier.sendBidInvalid(name, bid)
 				return
 			end
 
@@ -52,26 +58,29 @@ local BidHandler = {
 			end
 
 			rank = string.lower(rank)
-
+			bid = tonumber(bid)
+			
 			if not ranks[rank] then
-				notifier.sendBidInvalid(user, rank)
+				notifier.sendBidInvalid(name, rank)
 				return
 			end
+
+			local user = userData.getPlayerData(name)
 
 			local previousBid = bidders[user]
- 			local newBid = { points = bid, rank = rank, name = user }
+ 			local newBid = { points = bid, rank = rank, name = user.name }
 
-			if userData[user].points < bid then
-				notifier.sendBidNotEnoughPoints(user, newBid, userData[user].points)
+			if user.points < bid then
+				notifier.sendBidNotEnoughPoints(user, newBid, user.points)
 				return
 			end
 
- 			bidders[user] = newBid
+ 			bidders[user.name] = newBid
 
  			if previousBid then
- 				notifier.sendBidUpdate(user, newBid)
+ 				notifier.sendBidUpdate(user.name, newBid)
  			else
- 				notifier.sendBid(user, newBid)
+ 				notifier.sendBid(user.name, newBid)
  			end
 
  			if not timer.hasBeenExtended then
@@ -83,34 +92,61 @@ local BidHandler = {
 
 		local decideWinners = function()
 
-			local stats = ns.BidStatistics.new(bidders)
+			local stats = ns.bidderStatistics.new(bidders)
 
-			return stats.getWinners(bidItem.count)
+			local winners =  stats.getWinners(bidItem.count)
+			local winnerNames = {}
+
+			for i, user in ipairs(winners) do
+				winnerNames[user.name] = true
+			end
+
+			local others = {}
+
+			for name, bid in pairs(bidders) do
+				
+				if not winnerNames[name] then
+					table.insert(others, name)
+				end
+
+			end
 			
+			return winners, others
+
 		end
 
 		local onFinish = function()
 
-			local winners = decideWinners()
+			if cancelling then
+				notifier.broadcastBidCancelled()
+				return
+			end
+
+			local winners, others = decideWinners()
 
 			for i, winner in ipairs(winners) do
 				
-				local user = userData[winner.name]
+				local user = userData.getPlayerData(winner.name)
+				
 				user.points = user.points - winner.points
-				pointsLog.append(user)
+
+				userData.setPlayerData(user)
+				--pointsLog.append(user)
 
 			end
 
-			notifier.broadcastBidFinished(bidItem, winners, runnnersUp)
+			notifier.broadcastBidFinished(bidItem, winners, others)
 			notifier.broadcastPointsChanged(userData)
 
 		end
 
 		this.startBid = function(item)
 
-			if timer.isRunning then
+			if timer.isRunning() then
 				return 
 			end
+
+			cancelling = false
 
 			bidItem = item
 			bidders = {}
@@ -122,6 +158,12 @@ local BidHandler = {
 
 
 		this.finishBid = function()
+			cancelling = false
+			timer.finish()
+		end
+
+		this.cancelBid = function()
+			cancelling = true
 			timer.finish()
 		end
 
@@ -130,3 +172,6 @@ local BidHandler = {
 	end,
 
 }
+
+
+ns.lib.bid = BidHandler
