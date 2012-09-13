@@ -5,8 +5,11 @@ local EventSource = {
 	new = function()
 
 		local this = {}
-		local events = {}
 		local frame = CreateFrame("Frame")
+
+
+		local events = {}
+		local updates = {}		
 
 		this.registerFor = function(event, handler, key)
 
@@ -34,7 +37,22 @@ local EventSource = {
 
 		end
 
-		local onEvent = function(self, event, ...)
+		this.registerOnUpdate = function(key, handler) 
+
+			updates[key] = handler
+
+		end
+
+		this.unregisterOnUpdate = function(key) 
+
+			if updates[key] then
+				updates[key] = nil
+			end
+
+		end
+
+
+		frame:SetScript("OnEvent", function(self, event, ...)
 
 			if events[event] then
 
@@ -44,9 +62,15 @@ local EventSource = {
 
 			end
 
-		end
+		end)
 
-		frame:SetScript("OnEvent", onEvent)
+		frame:SetScript("OnUpdate", function()
+			
+			for key, handler in pairs(updates) do
+				handler()
+			end
+
+		end)
 
 		return this
 
