@@ -11,6 +11,7 @@ local Notifier = {
 
 		local this = {}
 		local prefix = "sbs_"
+		local announceChannel = "GUILD" --"RAID"
 
 		local sendAddonMessage = function(tag, channel, target, message)
 
@@ -29,7 +30,7 @@ local Notifier = {
 		end
 
 		local sendRaidMessage = function(message)
-			SendChatMessage(message, "RAID", nil, nil)		
+			SendChatMessage(message, announceChannel, nil, nil)		
 		end
 
 
@@ -64,7 +65,7 @@ local Notifier = {
 
 
 		this.broadcastBidStarted = function(item)
-			sendAddonMessage("bs", "RAID", nil, string.format("%s¬%s¬%s", item.id, item.name, item.link))
+			sendAddonMessage("bs", announceChannel, nil, string.format("%s¬%s¬%s", item.id, item.name, item.link))
 
 			local header = "Bid started on %s"
 
@@ -72,7 +73,7 @@ local Notifier = {
 				header = header .. " x%d"
 			end
 
-			sendRaidMessage( string.format(header, item.itemlink, item.count) )
+			sendRaidMessage( string.format(header, item.link, item.count) )
 
 			for i, ranked in ipairs(item.priorities) do
 				
@@ -94,9 +95,9 @@ local Notifier = {
 			local addonWinners = table.join(winners, "¬", getName)
 			local addonBidders = table.join(runnersUp, "¬", getName)
 
-			sendAddonMessage("bf", "RAID", nil, string.format("%s¬%s¬%s", item.id, item.name, item.link))
-			sendAddonMessage("bfw", "RAID", nil, string.format("%s¬%s", item.id, addonWinners))
-			sendAddonMessage("bfb", "RAID", nil, string.format("%s¬%s", item.id, addonBidders))
+			sendAddonMessage("bf", announceChannel, nil, string.format("%s¬%s¬%s", item.id, item.name, item.link))
+			sendAddonMessage("bfw", announceChannel, nil, string.format("%s¬%s", item.id, addonWinners))
+			sendAddonMessage("bfb", announceChannel, nil, string.format("%s¬%s", item.id, addonBidders))
 
 			local header = "Bid ended on %s"
 
@@ -113,12 +114,16 @@ local Notifier = {
 
 		end
 
+		this.broadcastPointsChanged = function(userData)	--guildRosterData instance
+
+		end
+
 
 		this.broadcastLootUpdated = function(items)
 
 			local itemIDs = table.join(items, "¬", function(i) return i.id end)
 			
-			sendAddonMessage("lu", "RAID", nil, itemIDs)
+			sendAddonMessage("lu", announceChannel, nil, itemIDs)
 
 		end
 
