@@ -1,4 +1,4 @@
-local addon, ns = ... or {}, {}
+local addon, ns = ...
 
 local BidderStatistics = {
 	
@@ -114,12 +114,12 @@ local BidderStatistics = {
 	end,
 }
 
-ns.BidderStatistics = BidderStatistics
+ns.bidderStatistics = BidderStatistics
 
 
 --test code:
 -------------------------------------------------------------------------------
-
+--[[
 function table.join(self, separator, selector)
 
 	if type(self) ~= "table" then
@@ -167,3 +167,4 @@ print("winners:", #w)
 for i,v in ipairs(w) do
 	print(i,v.name)
 end
+]]--
