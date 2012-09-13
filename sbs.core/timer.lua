@@ -14,22 +14,38 @@ local Timer = {
 		local hasBeenExtended = false
 		local active = false
 
-		
-
 		local SHORT_TIMER = 10
 		local LONG_TIMER = 30
 
+		local onUpdate = function()
+
+			if active == false then
+				events.unregisterOnUpdate(name)
+
+				if onFinish then
+					onFinish()
+				end
+
+				return
+			end
+
+			if GetTime() >= finishTime then
+				active = false
+			end
+
+		end
+
 		-- Desc: Starts a timer for 10s
 		-- Args: onFinish: A function to execute when the timer expires
-		this.start = function(onFinish)
+		this.start = function(onFinishHandler)
  
 			finishTime = GetTime() + SHORT_TIMER
 			active = true
 			hasBeenExtended = false
 
-			onFinish = onFinish
+			onFinish = onFinishHandler
 
-			events:RegisterOnUpdate(name, onUpdate)
+			events.registerOnUpdate(name, onUpdate)
 
 		end
 
@@ -57,25 +73,6 @@ local Timer = {
 		-- Args:
 		this.hasBeenExtended = function()
 			return hasBeenExtended
-		end
-
-
-		local onUpdate = function()
-
-			if active == false then
-				events:UnRegisterOnUpdate(name, onUpdate)
-
-				if onFinish then
-					onFinish()
-				end
-
-				return
-			end
-
-			if GetTime() >= finishTime then
-				active = false
-			end
-
 		end
 
 		return this
