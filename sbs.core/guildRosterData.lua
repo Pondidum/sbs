@@ -26,6 +26,7 @@ local GuildRosterData = {
 		this.loadPoints = function(ranks, raidMembers)
 
 			GuildRoster()
+			playerData = {}
 
 			local loadedCount = 0
 
@@ -62,6 +63,7 @@ local GuildRosterData = {
 		this.savePoints = function()
 
 			GuildRoster()
+			local savedCount = 0
 
 			for i = 1, GetNumGuildMembers() do
 
@@ -69,13 +71,19 @@ local GuildRosterData = {
 				local data = playerData[name]
 
 				if data then 
+
 					local public, officer = noteParser.create(data.spec, data.offspec, data.tag, data.points) 
 
 					GuildRosterSetPublicNote(i, public)
 					GuildRosterSetOfficerNote(i, officer)
+
+					savedCount = savedCount + 1
+
 				end
 
 			end
+
+			ns.lib.print(string.format("%d player's points saved.", savedCount))
 
 		end
 
