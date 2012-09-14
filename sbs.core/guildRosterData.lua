@@ -90,6 +90,11 @@ local GuildRosterData = {
 		this.getPlayerData = function(name)
 
 			local data = playerData[name]
+
+			if data == nil then
+				return nil
+			end
+			
 			local player = {}
 
 			for key, val in pairs(data) do
