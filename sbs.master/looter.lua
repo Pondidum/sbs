@@ -12,7 +12,7 @@ local Looter = {
 		local createItem = function(itemLink, texture)
 
 			--http://www.wowwiki.com/ItemLink
-			local _, _, color, ltype, id = string.find(itemLink, "|?c?f?f?(%x*)|?H?([^:]*):?(%d+)")
+			local index, length, color, ltype, id = string.find(itemLink, "|?c?f?f?(%x*)|?H?([^:]*):?(%d+)")
 
 			return {
 				id = id,

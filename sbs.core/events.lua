@@ -56,7 +56,7 @@ local EventSource = {
 
 			if events[event] then
 
-				for _, handler in pairs(events[event]) do
+				for key, handler in pairs(events[event]) do
 					handler(self, event, ...)
 				end
 

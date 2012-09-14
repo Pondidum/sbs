@@ -31,7 +31,7 @@ local GuildRosterData = {
 
 			for i = 1, GetNumGuildMembers() do
 
-				local name, rank, _, _, _, _, note, officernote = GetGuildRosterInfo(i)
+				local name, rank, rankIndex, level, class, zone, note, officernote = GetGuildRosterInfo(i)
 				local spec, offspec, tag, points = noteParser.parse(note, officernote)
 
 				if ranks == nil or ranks[rank] then
