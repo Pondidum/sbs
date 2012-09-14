@@ -48,8 +48,15 @@ local BidHandler = {
 				return 
 			end
 
+			local user = userData.getPlayerData(name)
+
+			if user == nil then
+				notifier.sendBidInvalidUser(name)
+				return
+			end
+
 			if type(bid) ~= "number" then
-				notifier.sendBidInvalid(name, bid)
+				notifier.sendBidInvalid(user, bid)
 				return
 			end
 
@@ -61,26 +68,24 @@ local BidHandler = {
 			bid = tonumber(bid)
 			
 			if not ranks[rank] then
-				notifier.sendBidInvalid(name, rank)
+				notifier.sendBidInvalid(user, rank)
 				return
 			end
-
-			local user = userData.getPlayerData(name)
 
 			local previousBid = bidders[user]
  			local newBid = { points = bid, rank = rank, name = user.name }
 
 			if user.points < bid then
-				notifier.sendBidNotEnoughPoints(user, newBid, user.points)
+				notifier.sendBidNotEnoughPoints(user, newBid)
 				return
 			end
 
  			bidders[user.name] = newBid
 
  			if previousBid then
- 				notifier.sendBidUpdate(user.name, newBid)
+ 				notifier.sendBidUpdate(user, newBid)
  			else
- 				notifier.sendBid(user.name, newBid)
+ 				notifier.sendBid(user, newBid)
  			end
 
  			if not timer.hasBeenExtended then

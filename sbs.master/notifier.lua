@@ -45,21 +45,24 @@ local Notifier = {
 		end
 
 
-
-		this.sendBidInvalid = function(user, bid)
-			sendWhisperMessage(user, string.format("Invalid bid %s.", bid))
+		this.sendBidInvalidUser = function(name)
+			sendWhisperMessage(name, "You were not found in the guild roster.")
 		end
 
-		this.sendBidNotEnoughPoints = function(user, newBid, available)
-			sendWhisperMessage(user, string.format("Not enough points (you bid %d, you have %d available.)", bid.points, available))
+		this.sendBidInvalid = function(user, bid)
+			sendWhisperMessage(user.name, string.format("Invalid bid %s.", bid))
+		end
+
+		this.sendBidNotEnoughPoints = function(user, newBid)
+			sendWhisperMessage(user.name, string.format("Not enough points (you bid %d, you have %d available.)", newBid.points, user.points))
 		end
 
 		this.sendBid = function(user, newBid)
-			sendWhisperMessage(user, string.format("Bid accepted, %d points, %s.", newBid.points, newBid.rank))
+			sendWhisperMessage(user.name, string.format("Bid accepted, %d points, %s.", newBid.points, newBid.rank))
 		end
 
 		this.sendBidUpdate = function(user, newBid) 
-			sendWhisperMessage(user, string.format("New bid accepted, %d points, %s.", newBid.points, newBid.rank))
+			sendWhisperMessage(user.name, string.format("New bid accepted, %d points, %s.", newBid.points, newBid.rank))
 		end
 
 
@@ -105,12 +108,17 @@ local Notifier = {
 				header = header .. " x%d"
 			end
 
-			local raidWinners = "Winners: " .. table.join(winners, ", ", getName)
-			local raidBidders = "Runners up: " .. table.join(runnersUp, ", ", getName)
+			local announceWinners = table.join(winners, ", ", getName)
+			
+			if announceWinners ~= "" then 
+				announceWinners = "Winners: " .. announceWinners .. "."
+			else
+				announceWinners = "No Bids."
+			end
 
 			sendRaidMessage(string.format(header, item.link, item.count))
-			sendRaidMessage(raidWinners)
-			sendRaidMessage(raidBidders)
+			sendRaidMessage(announceWinners)
+
 
 		end
 
