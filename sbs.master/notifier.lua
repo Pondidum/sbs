@@ -44,17 +44,20 @@ local Notifier = {
 			sendWhisperMessage(user, "No bid to cancel.")
 		end
 
-
 		this.sendBidInvalidUser = function(name)
 			sendWhisperMessage(name, "You were not found in the guild roster.")
 		end
 
 		this.sendBidInvalid = function(user, bid)
-			sendWhisperMessage(user.name, string.format("Invalid bid %s.", bid))
+			sendWhisperMessage(user.name, string.format("Invalid bid '%s'.", bid))
 		end
 
 		this.sendBidNotEnoughPoints = function(user, newBid)
 			sendWhisperMessage(user.name, string.format("Not enough points (you bid %d, you have %d available.)", newBid.points, user.points))
+		end
+
+		this.sendBidMinBid = function(user, min)
+			sendWhisperMessage(user.name, string.format("Minimum bid is %d.", min))
 		end
 
 		this.sendBid = function(user, newBid)

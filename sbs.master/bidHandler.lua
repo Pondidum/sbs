@@ -6,20 +6,15 @@ local BidHandler = {
 
 		--local config, notifier, userData, pointsLog = ns.config, ns.notifier, ns.userData, ns.pointsLog
 
+		local config   = ns.config
 		local notifier = ns.notifier
+		local lib      = ns.lib
 		local userData = ns.lib.guildRoster
 		local raidData = ns.raidRoster
-
-		local timer = ns.lib.timer
-
-		local ranks = { 
-			mainspec = 1,
-			offspec = 2.25,
-			unranked = 2.25,
-		}
+		
+		local timer = lib.timer.new("bidMaster")
 
 		local this = {}
-		local timer = timer.new("bidMaster")
 		local bidders = {}
 		local bidItem = {}
 		local cancelling = false
@@ -41,7 +36,6 @@ local BidHandler = {
 
 		end
 
-
 		this.registerBid = function(name, bid, rank)
 
 			if timer.isRunning() == false then
@@ -50,24 +44,25 @@ local BidHandler = {
 
 			local user = userData.getPlayerData(name)
 
+			rank = string.lower(rank or "unranked")
+			bid = tonumber(bid or 0)
+
 			if user == nil then
 				notifier.sendBidInvalidUser(name)
 				return
 			end
 
-			if type(bid) ~= "number" then
+			if bid == nil then
 				notifier.sendBidInvalid(user, bid)
 				return
 			end
 
-			if rank == nil or rank == '' then
-				rank = "mainspec"
+			if bid < config.minbid then
+				notifier.sendBidMinBid(user, config.minbid)
+				return
 			end
 
-			rank = string.lower(rank)
-			bid = tonumber(bid)
-			
-			if not ranks[rank] then
+			if not config.ranks[rank] then
 				notifier.sendBidInvalid(user, rank)
 				return
 			end

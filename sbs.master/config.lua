@@ -6,4 +6,5 @@ ns.config = {
 		offspec = 2.25,
 		unranked = 2.25,
 	},
+	minbid = 3,
 }
