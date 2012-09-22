@@ -4,6 +4,7 @@
 	<Script file="init.lua" />
 	<Script file="bidderStatistics.lua" />
 	<Script file="notifier.lua" />
+	<Script file="chatListener.lua" />
 	<Script file="itemCache.lua" />
 	<Script file="looter.lua" />
 	<Script file="bidHandler.lua" />
