@@ -173,5 +173,5 @@ local BidHandler = {
 
 }
 
-
-ns.lib.bid = BidHandler
+ns.bidHandler = BidHandler
+sbsLib.bid = BidHandler
