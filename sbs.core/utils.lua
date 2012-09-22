@@ -30,3 +30,17 @@ function table.print(t)
   print("}")
 
 end
+
+
+function string.split(input, sep)
+  
+  assert(sep, "You must provide a separator")
+  
+  local fields = {}
+  local pattern = string.format("([^%s]+)", sep)
+  
+  string.gsub(input, pattern, function(c) table.insert(fields, c) end)
+  
+  return fields
+  
+end
