@@ -47,37 +47,33 @@ local Looter = {
 
 		end
 
-		local broadcastLoot = function()
-			
-			for k,v in pairs(uniqueItems) do
-
-				notifier.broadcastLootUpdated(uniqueItems)
-				break
-
-			end
-
-		end
-
 		this.addLoot = function()
-
 			readLoot()
-			broadcastLoot()
-
 		end
 
 		this.loadLoot = function()
 
 			uniqueItems = {}
-			
 			readLoot()
-			broadcastLoot()
 			
+		end
+
+		this.listIDs = function()
+
+			local ids = {}
+
+			for k,v in pairs(uniqueItems) do
+				table.insert(ids, k)
+			end
+
+			return ids
+
 		end
 
 		this.report = function()
 
 			for k,v in pairs(uniqueItems) do
-				table.print(v)
+				ns.lib.print(v.link, "x"..v.count)
 			end
 
 		end
