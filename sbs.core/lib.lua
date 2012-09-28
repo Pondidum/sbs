@@ -1,6 +1,5 @@
 local addon, ns = ...
 
-
 local lib = {
 	
 	new = function()
@@ -11,6 +10,7 @@ local lib = {
 		ns.lib.events = ns.EventSource.new()
 		ns.lib.timer = ns.Timer
 		ns.lib.guildRoster = ns.GuildRosterData.new()
+		ns.lib.builder = ns.uiBuilder
 		
 
 		ns.lib.print = function(...)
@@ -22,7 +22,5 @@ local lib = {
 	end,
 
 }
-
-
 
 sbsLib = lib.new() 	--global for other addons
