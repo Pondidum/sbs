@@ -136,6 +136,12 @@ local Notifier = {
 			
 			sendAddonMessage("lu", announceChannel, nil, itemIDs)
 
+			sendRaidMessage("Loot Loaded:")
+			
+			for k,v in pairs(items) do
+				sendRaidMessage( string.format("%s x%d", v.link, v.count))
+			end
+
 		end
 
 		return this
