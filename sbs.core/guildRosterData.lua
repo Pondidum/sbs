@@ -44,6 +44,7 @@ local GuildRosterData = {
 						playerData[name] = {
 							name 	= name,
 							rank 	= rank,
+							class	= class,
 							spec 	= spec 	  or defaults.spec,
 							offspec = offspec or defaults.offspec,
 							tag 	= tag 	  or defaults.tag,
