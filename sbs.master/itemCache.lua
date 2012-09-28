@@ -5,16 +5,24 @@ local ItemCache = {
 	new = function()
 
 		local events = ns.lib.events 
-
 		local this = {}
 		
 		this.getItemInfo = function(itemID)
 
-			if sbsMasterDatabase.items[itemID] then
-				return sbsMasterDatabase.items[itemID]
-			end
+			local info = sbsMasterDatabase.items[itemID]
 
-			return {}
+			if info == nil then
+
+				info = {
+					link = "",
+					priorities = {},
+				}
+				
+				sbsMasterDatabase.items[itemID] = info
+
+			end 
+
+			return info
 
 		end
 
@@ -30,3 +38,4 @@ local ItemCache = {
 }
 
 ns.itemCache = ItemCache.new()
+sbsLib.cache = ns.itemCache
