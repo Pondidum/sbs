@@ -124,6 +124,33 @@ local GuildRosterData = {
 
 		end
 
+		this.addPoints = function(amount)
+
+			if amount == 0 then
+				return
+			end
+
+			local boundaries = ns.config.bounds
+
+			for name, data in pairs(playerData) do
+
+				for i,bound in ipairs(ns.config.boundaries) do
+					
+					if data.points < bound.points then
+
+						local newAmount = data.points + (amount * bound.factor)
+						data.points = newAmount
+
+						break
+						
+					end
+
+				end
+
+			end
+
+		end
+
 		return this
 
 	end,
