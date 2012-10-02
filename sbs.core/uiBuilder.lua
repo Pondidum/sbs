@@ -130,7 +130,7 @@ UIBuilder.create = function(config, name)
 		
 		local subFrame = UIBuilder.create(childConfig)
 
-		frame.plainName = subFrame
+		frame[plainName] = subFrame
 		frame.children[i] = subFrame
 		
 	end
