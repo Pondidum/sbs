@@ -70,6 +70,18 @@ local Looter = {
 
 		end
 
+		this.listItems = function()
+			
+			local items = {}
+
+			for k,v in pairs(uniqueItems) do
+				table.insert(items, v)
+			end
+
+			return items
+
+		end
+
 		this.report = function()
 
 			for k,v in pairs(uniqueItems) do
