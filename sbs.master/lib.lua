@@ -6,6 +6,7 @@ local LibSetup = {
 
 		local lib = {}
 
+		lib.config = ns.config
 		lib.stats = ns.bidderStatistics
 		lib.bidHandler = ns.bidHandler
 		lib.bidMaster = ns.bidMaster

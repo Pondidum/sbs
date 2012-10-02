@@ -124,17 +124,15 @@ local GuildRosterData = {
 
 		end
 
-		this.addPoints = function(amount)
+		this.addPoints = function(boundaries, amount)
 
 			if amount == 0 then
 				return
 			end
 
-			local boundaries = ns.config.bounds
-
 			for name, data in pairs(playerData) do
 
-				for i,bound in ipairs(ns.config.boundaries) do
+				for i,bound in ipairs(boundaries) do
 					
 					if data.points < bound.points then
 

@@ -1,12 +1,16 @@
 local addon, ns = ...
 
+local BORDER = {[[Interface\AddOns\Darkui\media\textures\glowTex]], {0, 0, 0, 0.8}}
+local BACKGROUND = {[[Interface\AddOns\Darkui\media\textures\normTex]], {0, 0, 0, 0.4}}
+
 local config = {
 	name = "BidMaster",
 	width = 500,
 	height = 300,
-	border = {[[Interface\AddOns\Darkui\media\textures\glowTex]], {0, 0, 0, 0.8}},
+	border = BORDER,
+	background = BACKGROUND,
 	anchors = {
-		{"RIGHT", "UIParent", "RIGHT", -40, 0},
+		{"RIGHT", "UIParent", "RIGHT", -80, 0},
 	},
 	children = {
 		{

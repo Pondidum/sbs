@@ -47,4 +47,4 @@ local BidMaster = {
 }
 
 
-ns.bidMaster = BidMaster.new()
+--ns.bidMaster = BidMaster.new()

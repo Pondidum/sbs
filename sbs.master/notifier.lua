@@ -11,7 +11,7 @@ local Notifier = {
 
 		local this = {}
 		local prefix = "sbs_"
-		local announceChannel = "GUILD" --"RAID"
+		local announceChannel = "RAID" --"RAID"
 
 		local sendAddonMessage = function(tag, channel, target, message)
 

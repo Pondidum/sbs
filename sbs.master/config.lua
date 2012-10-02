@@ -1,6 +1,12 @@
 local addon, ns = ...
 
 ns.config = {
+	guildRanks = {
+		['Council'] = true,
+		['Hardcore Raider'] = true,
+		['Raider'] = true,
+		['"Special"'] = true,
+	},
 	ranks = { 
 		mainspec = 1,
 		offspec = 2.25,
