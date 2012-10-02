@@ -1,10 +1,10 @@
 local addon, ns = ...
-local builder = ns.lib.builder
 
 local config = {
 	name = "BidMaster",
-	width = 600,
-	height = 600,
+	width = 500,
+	height = 300,
+	border = {[[Interface\AddOns\Darkui\media\textures\glowTex]], {0, 0, 0, 0.8}},
 	anchors = {
 		{"RIGHT", "UIParent", "RIGHT", -40, 0},
 	},
@@ -55,17 +55,18 @@ local config = {
 				{"BOTTOMRIGHT", "$parent$", "BOTTOMRIGHT", 5, 5}	
 			},
 			children = {
-				{ name = "$parent$NameLabel", type = "fontstring" },
-				{ name = "$parent$NameValue", type = "fontstring" },
+				--[[{ name = "$parent$NameLabel", type = "fontstring" },]]
+				--[[{ name = "$parent$NameValue", type = "fontstring" },]]
 			},
 		},	
 	},
 }
 
-local BidMasterDesigner = {
+ns.BidMasterDesigner = {
 	
 	new = function()
-		return builder.create(config)
+		return ns.lib.builder.create(config)
 	end,
 
 }
+

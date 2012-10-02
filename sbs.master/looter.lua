@@ -96,4 +96,3 @@ local Looter = {
 }
 
 ns.looter = Looter.new()
-ns.lib.looter = ns.looter

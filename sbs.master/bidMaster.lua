@@ -7,11 +7,6 @@ local BidMaster = {
 		local this = {}
 		local frame = ns.BidMasterDesigner.new()
 		
-
-		
-		local looter = ns.looter.new()
-
-
 		local populateLoot = function()
 
 			frame.LootList.clear()
@@ -50,3 +45,6 @@ local BidMaster = {
 	end,
 
 }
+
+
+ns.bidMaster = BidMaster.new()

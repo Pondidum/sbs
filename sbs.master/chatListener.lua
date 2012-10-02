@@ -39,4 +39,3 @@ local ChatListener = {
 }
 
 ns.chatListener = ChatListener
-ns.lib.chatListener = ChatListener

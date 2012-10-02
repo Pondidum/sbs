@@ -38,4 +38,3 @@ local ItemCache = {
 }
 
 ns.itemCache = ItemCache.new()
-sbsLib.cache = ns.itemCache

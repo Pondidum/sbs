@@ -8,4 +8,10 @@
 	<Script file="itemCache.lua" />
 	<Script file="looter.lua" />
 	<Script file="bidHandler.lua" />
+
+	<Script file="ui\bidMasterDesigner.lua" />
+	<Script file="bidMaster.lua" />
+
+
+	<Script file="lib.lua" />
 </Ui>

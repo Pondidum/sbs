@@ -4,8 +4,6 @@ local BidHandler = {
 	
 	new = function()
 
-		--local config, notifier, userData, pointsLog = ns.config, ns.notifier, ns.userData, ns.pointsLog
-
 		local config   = ns.config
 		local notifier = ns.notifier
 		local lib      = ns.lib
@@ -127,11 +125,9 @@ local BidHandler = {
 			for i, winner in ipairs(winners) do
 				
 				local user = userData.getPlayerData(winner.name)
-				
 				user.points = user.points - winner.points
 
 				userData.setPlayerData(user)
-				--pointsLog.append(user)
 
 			end
 
@@ -174,4 +170,3 @@ local BidHandler = {
 }
 
 ns.bidHandler = BidHandler
-sbsLib.bid = BidHandler
