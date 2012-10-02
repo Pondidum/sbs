@@ -94,9 +94,9 @@ local handlers = {
 
 }
 
-local UiBuilder = {}
+local UIBuilder = {}
 
-UiBuilder.create = function(config, name)
+UIBuilder.create = function(config, name)
 	
 	local frameName = name or config.name 
 	local frameType = config.type or "Frame"
@@ -128,7 +128,7 @@ UiBuilder.create = function(config, name)
 		childConfig.parent = frame
 		childConfig.parentName = frameName
 		
-		local subFrame = UiBuilder.create(childConfig)
+		local subFrame = UIBuilder.create(childConfig)
 
 		frame.plainName = subFrame
 		frame.children[i] = subFrame
@@ -138,3 +138,5 @@ UiBuilder.create = function(config, name)
 	return frame
 	
 end
+
+ns.uiBuilder = UIBuilder
