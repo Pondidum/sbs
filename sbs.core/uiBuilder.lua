@@ -2,7 +2,7 @@ local addon, ns = ...
 
 
 local parseName = function(original, replacement)
-	return string.gsub(original,"%$parent%$", replacement)
+	return string.gsub(original,"%$parent%$", replacement or '')
 end
 
 
@@ -84,22 +84,31 @@ local handlers = {
 	
 	end,
 
+	text = function(self, config, value)
+
+		if self.SetText then
+			self:SetText(value)
+		end
+
+	end,
+
 }
 
 local UiBuilder = {}
 
-UiBuilder.create = function(config)
+UiBuilder.create = function(config, name)
 	
-	local name = config.name 
-	local parent = config.parent
+	local frameName = name or config.name 
+	local frameType = config.type or "Frame"
+	local frameParent = config.parent or "UIParent"
 	
-	if type(parent) == "string" then
-		parent = _G[parent]	
+	if type(frameParent) == "string" then
+		frameParent = _G[frameParent]	
 	end
 	
-	config.parentName = parent:GetName()
+	config.parentName = frameParent:GetName()
 	
-	local frame = CreateFrame("Frame", config.name, parent)
+	local frame = CreateFrame(frameType, frameName, frameParent)
 	
 	for key, value in pairs(config) do
 	
@@ -111,18 +120,21 @@ UiBuilder.create = function(config)
 	
 	frame.children = {}
 	
-	for i, child in ipairs(config.children or {}) do
+	for i, childConfig in ipairs(config.children or {}) do
 	
-		child.name = parseName(child.name, name)
-		child.parent = frame
-		child.parentName = name
+		local plainName = parseName(childConfig.name)
+
+		childConfig.name = frameName .. plainName
+		childConfig.parent = frame
+		childConfig.parentName = frameName
 		
-		table.insert(frame.children, UiBuilder.create(child))
-	
+		local subFrame = UiBuilder.create(childConfig)
+
+		frame.plainName = subFrame
+		frame.children[i] = subFrame
+		
 	end
 	
 	return frame
 	
 end
-
-ns.uiBuilder = UiBuilder
