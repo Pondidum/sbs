@@ -8,6 +8,7 @@ local LibSetup = {
 
 		lib.config = ns.config
 		lib.stats = ns.bidderStatistics
+		lib.whisperParser = ns.whisperParser
 		lib.bidHandler = ns.bidHandler
 		lib.bidMaster = ns.bidMaster
 		lib.chatListener = ns.chatListener
