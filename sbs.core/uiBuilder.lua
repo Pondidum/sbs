@@ -1,5 +1,6 @@
 local addon, ns = ...
 
+local media = ns.media
 
 local parseName = function(original, replacement)
 	return string.gsub(original,"%$parent%$", replacement or '')
@@ -30,8 +31,16 @@ local handlers = {
 	
 	background = function(self, config, value)
 		
-		local texture = value[1]
-		local color = value[2]
+		local texture, color
+
+		if type(value) == "table" then
+			texture = value[1]
+			color = value[2]
+		else
+			texture = media.textures.background
+			color = media.colors.background
+		end 
+
 		
 		local bg = CreateFrame("Frame", nil, self)
 		
@@ -52,8 +61,17 @@ local handlers = {
 	
 	border = function(self, config, value)
 	
-		local texture = value[1]
-		local color = value[2]
+		
+		local texture, color
+
+		if type(value) == "table" then
+			texture = value[1]
+			color = value[2]
+		else
+			texture = media.textures.shadow
+			color = media.colors.shadow
+		end 
+
 		local offset = 3		
 		
 		
