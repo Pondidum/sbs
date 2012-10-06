@@ -127,8 +127,6 @@ local BidHandler = {
 				local user = userData.getPlayerData(winner.name)
 				user.points = user.points - winner.points
 
-				userData.setPlayerData(user)
-
 			end
 
 			notifier.broadcastBidFinished(bidItem, winners, others)
