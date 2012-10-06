@@ -97,6 +97,7 @@ local Notifier = {
 		this.broadcastBidFinished = function(item, winners, runnersUp)
 
 			local getName = function(p) return p.name end
+			local getNameAndPoints = function(p) return string.format("%s (%d points)", p.name, p.points) end
 
 			local addonWinners = table.join(winners, "¬", getName)
 			local addonBidders = table.join(runnersUp, "¬", getName)
@@ -111,7 +112,7 @@ local Notifier = {
 				header = header .. " x%d"
 			end
 
-			local announceWinners = table.join(winners, ", ", getName)
+			local announceWinners = table.join(winners, ", ", getNameAndPoints)
 			
 			if announceWinners ~= "" then 
 				announceWinners = "Winners: " .. announceWinners .. "."
