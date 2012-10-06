@@ -3,9 +3,11 @@ local addon, ns = ...
 ns.config = {
 	guildRanks = {
 		['Council'] = true,
+		['"Special"'] = true,
 		['Hardcore Raider'] = true,
 		['Raider'] = true,
-		['"Special"'] = true,
+		['Trial'] = true,
+
 	},
 	ranks = { 
 		mainspec = 1,
