@@ -9,18 +9,12 @@ local GuildRosterData = {
 		local this = {}
 		local playerData = {}
 
-		local updatableFields = {
-			spec = true,
-			offspec = true,
-			tag = true,
-			points = true,
-		}
-
 		local defaults = {
 			spec = "No Spec",
 			offspec = "",
 			tag = "X",
 			points = 0,
+			stored = 0,
 		}
 
 		this.loadPoints = function(ranks, raidMembers)
@@ -49,6 +43,7 @@ local GuildRosterData = {
 							offspec = offspec or defaults.offspec,
 							tag 	= tag 	  or defaults.tag,
 							points 	= points  or defaults.points,
+							stored  = points  or defaults.stored,
 						}
 
 					end
@@ -78,6 +73,7 @@ local GuildRosterData = {
 					GuildRosterSetPublicNote(i, public)
 					GuildRosterSetOfficerNote(i, officer)
 
+					data.stored = data.points
 					savedCount = savedCount + 1
 
 				end
@@ -89,39 +85,7 @@ local GuildRosterData = {
 		end
 
 		this.getPlayerData = function(name)
-
-			local data = playerData[name]
-
-			if data == nil then
-				return nil
-			end
-			
-			local player = {}
-
-			for key, val in pairs(data) do
-				player[key] = data[key]	
-			end
-
-			return player
-			
-		end
-
-		this.setPlayerData = function(data)
-
-			if not data then 
-				return 
-			end
-
-			local player = playerData[data.name]
-			
-			if not player then
-				return 
-			end
-
-			for key, val in pairs(updatableFields) do
-				player[key] = data[key]	
-			end
-
+			return playerData[name]
 		end
 
 		this.addPoints = function(boundaries, amount)
@@ -146,6 +110,18 @@ local GuildRosterData = {
 				end
 
 			end
+
+		end
+
+		this.listPlayerData = function()
+
+			local players = {}
+
+			for k,v in pairs(playerData) do
+				table.insert(players, v)
+			end
+
+			return players
 
 		end
 
