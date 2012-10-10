@@ -26,7 +26,7 @@ local GuildRosterData = {
 
 			for i = 1, GetNumGuildMembers() do
 
-				local name, rank, rankIndex, level, class, zone, note, officernote = GetGuildRosterInfo(i)
+				local name, rank, rankIndex, level, class, zone, note, officernote, online, status, classFile = GetGuildRosterInfo(i)
 				local spec, offspec, tag, points = noteParser.parse(note, officernote)
 
 				if ranks == nil or ranks[rank] then
@@ -36,14 +36,15 @@ local GuildRosterData = {
 						loadedCount = loadedCount + 1
 
 						playerData[name] = {
-							name 	= name,
-							rank 	= rank,
-							class	= class,
-							spec 	= spec 	  or defaults.spec,
-							offspec = offspec or defaults.offspec,
-							tag 	= tag 	  or defaults.tag,
-							points 	= points  or defaults.points,
-							stored  = points  or defaults.stored,
+							name 		= name,
+							rank 		= rank,
+							class		= class,
+							classFile 	= classFile,
+							spec 		= spec 	  or defaults.spec,
+							offspec 	= offspec or defaults.offspec,
+							tag 		= tag 	  or defaults.tag,
+							points 		= points  or defaults.points,
+							stored  	= points  or defaults.stored,
 						}
 
 					end
@@ -121,6 +122,7 @@ local GuildRosterData = {
 				table.insert(players, v)
 			end
 
+			table.sort(players, function(x,y) return x.name < y.name end)
 			return players
 
 		end
