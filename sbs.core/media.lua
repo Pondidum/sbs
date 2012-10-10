@@ -12,6 +12,9 @@ local Media = {
 		shadow = {0, 0, 0, 0.8},
 	},
 
+	fonts = {
+		normal = [[Interface\AddOns\sbs.core\fonts\PT-Sans-Narrow.ttf]],
+	},
 }
 
 ns.media = Media
