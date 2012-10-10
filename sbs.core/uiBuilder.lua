@@ -1,5 +1,4 @@
 local addon, ns = ...
-
 local media = ns.media
 
 local parseName = function(original, replacement)
@@ -7,8 +6,95 @@ local parseName = function(original, replacement)
 end
 
 
-local handlers = {
-	width = function(self,config, value) 
+local creationHandlers = {
+	
+	default = function(frameType, frameName, frameParent, frameInherit)
+
+		return CreateFrame(frameType, frameName, frameParent, frameInherit)
+
+	end,
+
+	font = function(frameType, frameName, frameParent, frameInherit)
+
+		local f = frameParent:CreateFontString(frameName, "OVERLAY")
+		
+		f:SetFont(media.fonts.normal, 12)
+
+		return f
+
+	end,
+
+	scroll = function(frameType, frameName, frameParent, frameInherit)
+
+		local parent = CreateFrame("ScrollFrame", frameName, frameParent)
+		parent:EnableMouseWheel(true)
+
+		local bar = CreateFrame("Slider", nil, parent, "UIPanelScrollBarTemplate")
+		bar:SetOrientation("VERTICAL")
+		bar:SetPoint("TOPRIGHT", parent, "TOPRIGHT", 0, -16)
+		bar:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", 0, 16)
+		bar:SetValue(0)
+
+		bar:SetScript("OnValueChanged", function(self)
+		    parent:SetVerticalScroll(self:GetValue())
+		end)
+
+		parent:SetScript("OnMouseWheel", function(self, delta)
+		    bar:SetValue(bar:GetValue()- (20 * delta))
+		end)
+
+		local child = CreateFrame("Frame", nil, parent)
+		child:SetSize(parent:GetWidth() - bar:GetWidth() -2, parent:GetHeight())
+		parent:SetScrollChild(child)
+
+
+		local PADDING = 5
+
+		parent.populate = function(frames)
+
+			local totalHeight = 0
+
+			local prev
+			for i, frame in ipairs(frames) do
+
+				frame:SetParent(child)
+				frame:ClearAllPoints()
+				frame:SetPoint("LEFT", child, "LEFT", 0, 0)
+				frame:SetPoint("RIGHT", child, "RIGHT", 0, 0)
+
+				if i == 1 then
+					frame:SetPoint("TOP", child, "TOP", 0, 0)
+				else
+					frame:SetPoint("TOP", prev, "BOTTOM", 0, - PADDING)
+				end
+
+				totalHeight = totalHeight + frame:GetHeight() + PADDING
+
+				prev = frame
+			end
+
+			totalHeight = totalHeight - PADDING
+
+			child:SetHeight(totalHeight)
+			child:SetWidth(parent:GetWidth() - bar:GetWidth() -2)
+			
+			bar:SetMinMaxValues(0, child:GetHeight() - parent:GetHeight())
+
+		end
+
+		return parent
+
+	end,
+
+}
+
+local attributeHandlers = {
+
+	default = function(self, config, value)
+		-- does nothing!
+	end,
+
+	width = function(self, config, value) 
 		self:SetWidth(value)
 	end,
 	
@@ -110,15 +196,51 @@ local handlers = {
 
 	end,
 
+	font = function(self, config, value)
+
+		if self.SetFont then
+
+			
+
+			local fontName, fontSize
+
+			if type(value) == "table" then
+				fontName = value[1]
+				fontSize = value[2]
+			else
+				fontName = media.fonts.normal
+				fontSize = 12
+			end
+
+			self:SetFont(fontName, fontSize)
+
+		end
+
+	end
+
 }
+
+
+local defaultMeta = {
+	__index = function(table, key)
+		return table.default
+	end,
+}
+
+setmetatable(creationHandlers, defaultMeta)
+setmetatable(attributeHandlers, defaultMeta)
 
 local UIBuilder = {}
 
-UIBuilder.create = function(config, name)
+UIBuilder.create = function(config, name, parent)
 	
+	local config = table.clone(config)	-- the ui builder is destructive on a config.
+
 	local frameName = name or config.name 
 	local frameType = config.type or "Frame"
-	local frameParent = config.parent or "UIParent"
+	local frameParent = parent or config.parent or "UIParent"
+	local frameInherit = config.inherits or nil
+
 	
 	if type(frameParent) == "string" then
 		frameParent = _G[frameParent]	
@@ -126,14 +248,10 @@ UIBuilder.create = function(config, name)
 	
 	config.parentName = frameParent:GetName()
 	
-	local frame = CreateFrame(frameType, frameName, frameParent)
-	
+	local frame = creationHandlers[frameType](frameType, frameName, frameParent, frameInherit)
+
 	for key, value in pairs(config) do
-	
-		if handlers[key] then
-			handlers[key](frame, config, value)
-		end
-	
+		attributeHandlers[key](frame, config, value)
 	end
 	
 	frame.children = {}
