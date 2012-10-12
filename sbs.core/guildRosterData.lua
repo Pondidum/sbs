@@ -5,6 +5,7 @@ local GuildRosterData = {
 	new = function()
 
 		local noteParser = ns.lib.parser
+		local loaded = false
 
 		local this = {}
 		local playerData = {}
@@ -18,6 +19,10 @@ local GuildRosterData = {
 		}
 
 		this.loadPoints = function(ranks, raidMembers)
+
+			if loaded then
+				return
+			end
 
 			GuildRoster()
 			playerData = {}
@@ -55,6 +60,11 @@ local GuildRosterData = {
 
 			ns.lib.print(string.format("%d player's points loaded.", loadedCount))
 
+		end
+
+		this.reloadPoints = function()
+			loaded = false
+			this.loadPoints()
 		end
 
 		this.savePoints = function()
