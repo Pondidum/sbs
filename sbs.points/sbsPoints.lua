@@ -1,40 +1,58 @@
 local addon, ns = ...
+local designer = ns.pointsDisplayDesigner
 
 
-local f = ns.pointsDisplayDesigner.new()
+local sbsPoints = {
+	
+	new = function()
 
-local frame = core.builder.create(row, "$parent$Row", f.TableHeader)
-frame:SetAllPoints(f.TableHeader)
+		local pointsDisplay = designer.newDisplay()
 
-frame.Name:SetText("Name")
-frame.Class:SetText("Class")
-frame.Spec:SetText("Spec")
-frame.Points:SetText("Points")
+		local points = {}
+		local rows = {}
 
+		local updatePoints = function()
+			--populate from guild roster, or from a bid master points updated event.
+		end
 
-local data = {}
+		local getRow = function(index)
 
-sbsLib.guildRoster.loadPoints(sbmLib.config.guildRanks, nil)
+			local row = rows[index]
 
-for i, player in ipairs(sbsLib.guildRoster.listPlayerData()) do
-  
-  local frame = core.builder.create(row, "Player"..i, f.Table:GetName())  
-  
-  frame.Name:SetText(player.name)
-  frame.Class:SetText(player.class)
-  frame.Spec:SetText(player.spec)
-  frame.Points:SetText(player.points)
-  
-  local color = RAID_CLASS_COLORS[player.classFile]
-  
-  if color == nil then
-    color = { r=1,g=1,b=1}
-  end
-  
-  frame.Name:SetTextColor(color.r, color.g, color.b)
-  
-  data[i] = frame
-  
-end
+			if row == nil then
+				row = designer.newRow("$parent$Row"..i, pointsDisplay.Table:GetName())
+				rows[index] = row
+			end
 
-f.Table.populate(data)
+			return row
+
+		end
+
+		local updateDisplay = function()
+
+			for i, player in ipairs(points) do
+
+				local row = getRow(i)
+
+				row.Name:SetText(player.name)
+				row.Class:SetText(player.class)
+				row.Spec:SetText(player.spec)
+				row.Points:SetText(player.points)
+
+				local color = RAID_CLASS_COLORS[player.classFile]
+
+				row.Name:SetTextColor(color.r, color.g, color.b)
+
+			end
+
+			pointsDisplay.Table.populate(data)
+
+		end
+
+		pointsDisplay.Options.Refresh:SetScript("OnClick", function()  
+			updatePoints()
+			updateDisplay()
+		end)
+
+	end,
+}
