@@ -1,0 +1,9 @@
+## Interface: 50400
+## DefaultState: Enabled
+## Title: sbs.points
+## Notes: Slap Bid System Points Display
+## Author: Darkend/Slap/Horde/Zenedar/EU
+## Version: 0.1
+## RequiredDeps: sbs.core
+
+sbs.points.xml
