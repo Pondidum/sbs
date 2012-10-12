@@ -11,6 +11,7 @@ local lib = {
 		ns.lib.timer = ns.Timer
 		ns.lib.guildRoster = ns.GuildRosterData.new()
 		ns.lib.builder = ns.uiBuilder
+		ns.lib.chatListener = ns.chatListener
 		ns.lib.media = ns.media
 
 		ns.lib.print = function(...)

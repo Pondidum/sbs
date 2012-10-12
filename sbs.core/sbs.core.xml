@@ -7,6 +7,7 @@
 	<Script file="noteParser.lua"/>
 	<Script file="timer.lua"/>
 	<Script file="guildRosterData.lua"/>
+	<Script file="chatListener.lua" />
 
 	<Script file="lib.lua"/>	
 

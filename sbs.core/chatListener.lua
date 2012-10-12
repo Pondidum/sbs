@@ -1,5 +1,5 @@
 local addon, ns = ...
-local events = ns.lib.events
+local events = ns.events
 
 local ChatListener = {
 	
