@@ -6,6 +6,9 @@
 		},
 		{
 			"path": "sbs.master"
+		},
+		{
+			"path": "sbs.points"
 		}
 	]
 }
