@@ -13,6 +13,12 @@ local sbsPoints = {
 
 		local updatePoints = function()
 			--populate from guild roster, or from a bid master points updated event.
+
+			local guildRoster = ns.lib.guildRoster.new()
+			guildRoster.loadPoints()		--gather from ui options later
+
+			points = guildRoster.listPlayerData()
+
 		end
 
 		local getRow = function(index)

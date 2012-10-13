@@ -6,4 +6,5 @@
 	<Script file="ui\pointsDisplayDesigner.lua" />
 	<Script file="sbsPoints.lua" />
 
+	<Script file="start.lua" />
 </Ui>
