@@ -99,7 +99,7 @@ local row = {
 
 local designer = {}
 
-desginer.newRow = function(name, parent)
+designer.newRow = function(name, parent)
 	return builder.create(row, name, parent)
 end
 
