@@ -44,10 +44,9 @@ local config = {
 }
 
 local modifiers = {
-	
 	default = function() return true end,
 	shift = function() return IsShiftKeyDown() end,
-	ctrl = function() return IsControlKeyDown end,
+	ctrl = function() return IsControlKeyDown() end,
 	alt = function() return IsAltKeyDown() end,
 }
 
@@ -69,9 +68,9 @@ local MiniMapIcon = {
   
 	new = function() 
 
-		local this = {}
 		local button = ns.uiBuilder.create(config)
 		local actions = { default = {} }
+		local degrees = 0
 
 		setmetatable(actions, ns.defaultKeyMeta)
 
@@ -80,9 +79,17 @@ local MiniMapIcon = {
 		button:SetMovable(true)
 		
 
-		button:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+		button:RegisterForClicks("AnyUp")
 		button:RegisterForDrag("LeftButton", "RightButton")
 		
+		local setPosition = function()
+
+			local xCalc = 52 - (80 * cos(degrees))
+			local yCalc = (80 * sin(degrees)) - 52
+
+			button:SetPoint("TOPLEFT", "Minimap", "TOPLEFT", xCalc, yCalc)
+		end
+
 		local buttonOnDragStart = function()
 			button:LockHighlight()
 			button.Drag:Show()
@@ -94,53 +101,61 @@ local MiniMapIcon = {
 		end
 		
 		local dragOnUpdate = function()
-		  
+		  	
 			local xpos, ypos = GetCursorPosition()
 			local xmin, ymin = Minimap:GetLeft(), Minimap:GetBottom()
 
 			xpos = xmin - xpos / UIParent:GetScale() + 70            --minimap center
 			ypos = ypos / UIParent:GetScale() - ymin - 70
 
-			local degrees = math.deg(math.atan2(ypos,xpos))
+			degrees = math.deg(math.atan2(ypos,xpos))
 
-			local xCalc = 52 - (80 * cos(degrees))
-			local yCalc = (80 * sin(degrees)) - 52
+ 			ns.userSettings.set("minimapDegrees", degrees)
+		  	setPosition()
 
-			button:SetPoint("TOPLEFT", "Minimap", "TOPLEFT", xCalc, yCalc)
-		  
 		end
 		
 		local buttonOnClick = function(self, button, down) 
 			
-			local action = actions[button][getModifer()]
+			local mod = getModifer()
+			local action = actions[button][mod]
 
 			if action then
 				action()
 			end
 
 		end
-		
+
 		button.Drag:SetScript("OnUpdate", dragOnUpdate)
 		button:SetScript("OnDragStart", buttonOnDragStart)
 		button:SetScript("OnDragStop", buttonOnDragStop)
 		button:SetScript("OnClick", buttonOnClick)
 
+		local this = {}
 
 		this.addAction = function(button, modifier, action)
 
-			if not action[button] then
-				action[button] = {}
+			if not actions[button] then
+				actions[button] = {}
 			end
 
 			if modifier == nil or modifier == "" then
 				modifier = "default"
 			end
 
-			action[button][modifier] = action
+			actions[button][modifier] = action
 
 		end
+
+		ns.userSettings.onLoad(function() 
+			degrees = ns.userSettings.get("minimapDegrees") or 0
+			setPosition()
+		end)
+
+		return this
 
 	end,
   
 }
-MiniMapIcon.new()
+
+ns.minimap = MiniMapIcon.new()

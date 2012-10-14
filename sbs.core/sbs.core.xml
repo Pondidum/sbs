@@ -1,10 +1,11 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
 	
+	<Script file="events.lua"/>
+	<Script file="settings.lua" />
 	<Script file="utils.lua" />
 	<Script file="metas.lua" />
 	<Script file="media.lua" />
 	<Script file="uiBuilder.lua" />
-	<Script file="events.lua"/>
 	<Script file="noteParser.lua"/>
 	<Script file="timer.lua"/>
 	<Script file="guildRosterData.lua"/>

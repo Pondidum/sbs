@@ -78,4 +78,4 @@ local EventSource = {
 
 }
 
-ns.EventSource = EventSource
+ns.EventSource = EventSource.new()

@@ -4,5 +4,6 @@
 ## Notes: Slap Bid System core module
 ## Author: Darkend/Slap/Horde/Zenedar/EU
 ## Version: 0.1
+## SavedVariables: sbsCoreSettings
 
 sbs.core.xml

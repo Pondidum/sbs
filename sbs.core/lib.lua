@@ -7,12 +7,13 @@ local lib = {
 		ns.lib = {}
 
 		ns.lib.parser = ns.NoteParser
-		ns.lib.events = ns.EventSource.new()
+		ns.lib.events = ns.EventSource
 		ns.lib.timer = ns.Timer
 		ns.lib.guildRoster = ns.GuildRosterData
 		ns.lib.builder = ns.uiBuilder
 		ns.lib.chatListener = ns.chatListener
 		ns.lib.media = ns.media
+		ns.lib.minimap = ns.minimap
 
 		ns.lib.print = function(...)
 			print("|cff33ff99sbs:|r", ...)
