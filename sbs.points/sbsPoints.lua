@@ -13,9 +13,12 @@ local sbsPoints = {
 
 		local updatePoints = function()
 			--populate from guild roster, or from a bid master points updated event.
-
+			
+			ns.lib.raidRoster.loadRaid()
+			local raiders = ns.lib.raidRoster.getRaidMembers()
 			local guildRoster = ns.lib.guildRoster.new()
-			guildRoster.loadPoints()		--gather from ui options later
+
+			guildRoster.loadPoints(nil, raiders)		--gather from ui options later
 
 			points = guildRoster.listPlayerData()
 
