@@ -9,6 +9,7 @@ local lib = {
 		ns.lib.parser = ns.NoteParser
 		ns.lib.events = ns.EventSource
 		ns.lib.timer = ns.Timer
+		ns.lib.raidRoster = ns.raidRosterData
 		ns.lib.guildRoster = ns.GuildRosterData
 		ns.lib.builder = ns.uiBuilder
 		ns.lib.chatListener = ns.chatListener

@@ -39,4 +39,4 @@ local RaidRosterData = {
 
 }
 
-ns.raidRoster = RaidRosterData.new()
+ns.raidRosterData = RaidRosterData.new()

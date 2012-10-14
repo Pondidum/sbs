@@ -5,7 +5,6 @@
 	<Script file="bidderStatistics.lua" />
 	<Script file="notifier.lua" />
 	<Script file="itemCache.lua" />
-	<Script file="raidRosterData.lua" />
 	<Script file="looter.lua" />
 	<Script file="bidHandler.lua" />
 

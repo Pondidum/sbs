@@ -8,6 +8,7 @@
 	<Script file="uiBuilder.lua" />
 	<Script file="noteParser.lua"/>
 	<Script file="timer.lua"/>
+	<Script file="raidRosterData.lua"/>
 	<Script file="guildRosterData.lua"/>
 	<Script file="chatListener.lua" />
 	<Script file="minimap.lua" />
