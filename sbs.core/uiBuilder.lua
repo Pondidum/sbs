@@ -24,6 +24,12 @@ local creationHandlers = {
 
 	end,
 
+	texture = function(frameType, frameName, frameParent, frameInherit)
+
+		return frameParent:CreateTexture(frameName)
+
+	end,
+
 	scroll = function(frameType, frameName, frameParent, frameInherit)
 
 		local parent = CreateFrame("ScrollFrame", frameName, frameParent)
@@ -196,6 +202,30 @@ local attributeHandlers = {
 
 	end,
 
+	texture = function(self, config, value)
+
+		if self.SetTexture then
+			self:SetTexture(value)
+		end
+
+	end,
+
+	texturecoord = function(self, config, value)
+
+		if self.SetTexCoord then
+			self:SetTexCoord(unpack(value))
+		end
+
+	end,
+
+	layer = function(self, config, value)
+
+		if self.SetDrawLayer then
+			self:SetDrawLayer(value)
+		end
+		
+	end,
+
 	font = function(self, config, value)
 
 		if self.SetFont then
@@ -216,7 +246,17 @@ local attributeHandlers = {
 
 		end
 
-	end
+	end,
+
+	visible = function(self, config, value)
+
+		if value then
+			self:Show()
+		else
+			self:Hide()
+		end
+
+	end,
 
 }
 
@@ -234,7 +274,6 @@ UIBuilder.create = function(config, name, parent)
 	local frameParent = parent or config.parent or "UIParent"
 	local frameInherit = config.inherits or nil
 
-	
 	if type(frameParent) == "string" then
 		frameParent = _G[frameParent]	
 	end
