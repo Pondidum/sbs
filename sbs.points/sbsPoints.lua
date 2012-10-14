@@ -26,7 +26,7 @@ local sbsPoints = {
 			local row = rows[index]
 
 			if row == nil then
-				row = designer.newRow("$parent$Row"..i, pointsDisplay.Table:GetName())
+				row = designer.newRow("$parent$Row"..index, pointsDisplay.Table:GetName())
 				rows[index] = row
 			end
 
@@ -51,7 +51,7 @@ local sbsPoints = {
 
 			end
 
-			pointsDisplay.Table.populate(data)
+			pointsDisplay.Table.populate(rows)
 
 		end
 
@@ -59,6 +59,8 @@ local sbsPoints = {
 			updatePoints()
 			updateDisplay()
 		end)
+
+		return pointsDisplay
 
 	end,
 }

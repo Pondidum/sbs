@@ -106,7 +106,7 @@ end
 designer.newDisplay = function()
 
 	local display = builder.create(config)
-	local rowHeader = designer.newRow(row, "$parent$Row", display.TableHeader)
+	local rowHeader = designer.newRow("$parent$Row", display.TableHeader)
 	rowHeader:SetAllPoints(display.TableHeader)
 
 	rowHeader.Name:SetText("Name")
