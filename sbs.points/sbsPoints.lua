@@ -60,6 +60,10 @@ local sbsPoints = {
 			updateDisplay()
 		end)
 
+		pointsDisplay.Options.Close:SetScript("OnClick", function()
+			pointsDisplay:Hide()
+		end)
+
 		return pointsDisplay
 
 	end,

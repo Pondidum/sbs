@@ -34,6 +34,17 @@ local config = {
 					anchors = {
 						{"LEFT", "$parent$", "LEFT", OFFSET, 0},
 					}
+				},
+				{
+					name = "$parent$Close",
+					type = "button",
+					border = true,
+					background = true,
+					width = 18,
+					height = 18,
+					anchors = {
+						{"RIGHT", "$parent$", "RIGHT", -OFFSET, 0},
+					}
 				}
 			}
 		},  
