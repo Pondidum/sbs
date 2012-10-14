@@ -84,7 +84,8 @@ local creationHandlers = {
 			child:SetHeight(totalHeight)
 			child:SetWidth(parent:GetWidth() - bar:GetWidth() -2)
 			
-			bar:SetMinMaxValues(0, child:GetHeight() - parent:GetHeight())
+			local max = child:GetHeight() - parent:GetHeight()
+			bar:SetMinMaxValues(0, math.max(max, 0))
 
 		end
 
