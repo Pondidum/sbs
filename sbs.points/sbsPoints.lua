@@ -62,3 +62,15 @@ local sbsPoints = {
 
 	end,
 }
+
+local createOrShow = function()
+
+	if not ns.display then
+		ns.display = sbsPoints.new()
+	end
+
+	ns.display:Show()	
+
+end
+
+ns.lib.minimap.addAction("LeftButton", nil, createOrShow)
