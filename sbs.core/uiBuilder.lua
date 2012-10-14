@@ -220,15 +220,8 @@ local attributeHandlers = {
 
 }
 
-
-local defaultMeta = {
-	__index = function(table, key)
-		return table.default
-	end,
-}
-
-setmetatable(creationHandlers, defaultMeta)
-setmetatable(attributeHandlers, defaultMeta)
+setmetatable(creationHandlers, ns.defaultKeyMeta)
+setmetatable(attributeHandlers, ns.defaultKeyMeta)
 
 local UIBuilder = {}
 
