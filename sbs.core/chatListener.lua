@@ -5,7 +5,7 @@ local ChatListener = {
 	
 	new = function(filter, onReceive, onReject)
 
-		local filter = filter
+		local filter = string.lower(filter)
 		local onReceive = assert(onReceive, "arg2: You must provide an onReceive handler")
 		local onReject = onReject or function() end
 
@@ -13,6 +13,8 @@ local ChatListener = {
 
 		local onWhisper = function(self, event, message, sender, language, channelString, target, flags, unknownFirst, channelNumber, channelName, unknownSecond, counter, guid)
 
+			local message = string.lower(message)
+			
 			if filter ~= nil and not string.find(message, filter) then
 				onReject(sender, message, filter)
 				return
