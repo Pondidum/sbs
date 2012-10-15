@@ -1,4 +1,4 @@
---local addon, ns = ...
+local addon, ns = ...
 
 local PriorityDecider = {
 	
@@ -55,6 +55,8 @@ local PriorityDecider = {
 
 }
 
+ns.priorityDecider = PriorityDecider.new()
+--[[
 local testDecider = PriorityDecider.new()
 
 local testCases = {
@@ -82,6 +84,30 @@ local testCases = {
 		},
 		result = "mainspec"
 	},
+	["when offspec requested and item is available"] = {
+		args = {
+			[1] = { classFile = "SHAMAN", spec = "ENHANCEMENT", offspec = "ELEMENTAL"},
+			[2] = { priorities = { SHAMAN = { ENHANCEMENT = true } } },
+			[3] = "mainspec",
+		},
+		result = "mainspec"
+	},
+	["when mainspec requested and item is offspec available"] = {
+		args = {
+			[1] = { classFile = "SHAMAN", spec = "ENHANCEMENT", offspec = "ELEMENTAL"},
+			[2] = { priorities = { SHAMAN = { ELEMENTAL = true } } },
+			[3] = "mainspec",
+		},
+		result = "offspec"
+	},
+	["when offspec requested and item is offspec available"] = {
+		args = {
+			[1] = { classFile = "SHAMAN", spec = "ENHANCEMENT", offspec = "ELEMENTAL"},
+			[2] = { priorities = { SHAMAN = { ELEMENTAL = true } } },
+			[3] = "offspec",
+		},
+		result = "offspec"
+	}
 }
 
 
@@ -91,9 +117,10 @@ for name, case in pairs(testCases) do
 	local result = testDecider.getPriority(unpack(case.args))
 
 	if result == case.result then
-		print(name, "passed.")
+		print("Pass:", name)
 	else
-		print(name, "failed.", "expected=", case.result, "actual=", result)
+		print("Fail:", name, "expected=", case.result, "actual=", result)
 	end 
 
 end
+]]
