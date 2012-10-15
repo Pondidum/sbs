@@ -2,12 +2,12 @@ local addon, ns = ...
 
 local BidHandler = {
 	
-	new = function()
+	new = function(guild)
 
 		local config   = ns.config
 		local notifier = ns.notifier
 		local lib      = ns.lib
-		local userData = ns.lib.guildRoster
+		local userData = guild
 		local raidData = ns.raidRoster
 		
 		local timer = lib.timer.new("bidMaster")
