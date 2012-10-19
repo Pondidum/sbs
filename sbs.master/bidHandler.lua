@@ -81,7 +81,7 @@ local BidHandler = {
  				notifier.sendBid(user, newBid)
  			end
 
- 			if not timer.hasBeenExtended then
+ 			if not timer.hasBeenExtended() then
  				timer.extend()
  			end
 
