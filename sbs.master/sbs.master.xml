@@ -6,11 +6,17 @@
 	<Script file="notifier.lua" />
 	<Script file="itemCache.lua" />
 	<Script file="looter.lua" />
+
+	<Script file="pointTransactions.lua" />
+	<Script file="transactions\bossKill.lua" />
+	<Script file="transactions\itemReassign.lua" />
+	<Script file="transactions\itemWon.lua" />
+
 	<Script file="bidHandler.lua" />
 
 	<Script file="ui\bidMasterDesigner.lua" />
 	<Script file="bidMaster.lua" />
 
-
 	<Script file="lib.lua" />
+	
 </Ui>
