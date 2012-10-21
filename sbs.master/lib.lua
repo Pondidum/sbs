@@ -15,6 +15,7 @@ local LibSetup = {
 		lib.looter = ns.looter
 		lib.notifier = ns.notifier 
 		lib.raidRoster = ns.raidRoster
+		lib.points = ns.points
 		
 		return lib
 
