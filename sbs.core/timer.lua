@@ -15,7 +15,7 @@ local Timer = {
 		local active = false
 
 		local SHORT_TIMER = 10
-		local LONG_TIMER = 30
+		local LONG_TIMER = 20
 
 		local onUpdate = function()
 
@@ -49,10 +49,10 @@ local Timer = {
 
 		end
 
-		-- Desc: Resets the timer for a further 30s
+		-- Desc: Resets the timer to finish at 30s from start
 		-- Args:
 		this.extend = function()
-			finishTime = GetTime() + LONG_TIMER
+			finishTime = finishTime + (LONG_TIMER - SHORT_TIMER)
 			hasBeenExtended = true
 		end
 
