@@ -7,11 +7,11 @@ ns.points.transactions.itemWon = function(user, points, itemData)
 	this.addDescription(string.format("%s: -%d.", user.name, points))
 
 	this.commit = function()
-		user.points = user.points + points
+		user.points = user.points - points
 	end
 
 	this.rollback = function()
-		user.points = user.points - points
+		user.points = user.points + points
 	end
 
 	return this
