@@ -1,8 +1,8 @@
 local addon, ns = ...
 
-ns.points.transactions.itemWon = function(user, points, itemLink)
+ns.points.transactions.itemWon = function(user, points, itemData)
 
-	local this = ns.points.newTransaction("Item Win: " .. item.name)
+	local this = ns.points.newTransaction("Item Win: " .. itemData.name)
 
 	this.addDescription(string.format("%s: -%d.", user.name, points))
 

@@ -9,7 +9,7 @@ local PointsTransactions = {
 		local transactions = {}
 
 		this.add = function(action)
-			transactions[timestamp] = action
+			transactions[action.timestamp] = action
 			action.commit()
 		end
 
@@ -43,7 +43,7 @@ local PointsTransactions = {
 	
 		local transaction =  {}
 		
-		transaction.timestamp = GetTime()
+		transaction.timestamp = math.floor(GetTime())
 		transaction.name = name
 		transaction.description = description
 		transaction.commit = function() end

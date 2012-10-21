@@ -1,10 +1,13 @@
 local addon, ns = ...
 
 ns.points.transactions.bossKill = function(users, points, bossName)
-
+	
 	local this = ns.points.newTransaction(string.format("Boss Kill: %s", bossName))
 
-	this.addDescription(string.format("Raid: +%d.", points))
+	for i, user in ipairs(users) do
+		this.addDescription(string.format("%s: +%d.", user.name, points))
+	end
+	
 
 	this.commit = function()
 

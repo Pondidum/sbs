@@ -2,13 +2,14 @@ local addon, ns = ...
 
 local BidHandler = {
 	
-	new = function(guild)
+	new = function(pointsTransactions, guildRoster)
 
-		local config   = ns.config
-		local notifier = ns.notifier
-		local lib      = ns.lib
-		local userData = guild
-		local raidData = ns.raidRoster
+		local config  	= ns.config
+		local notifier	= ns.notifier
+		local lib     	= ns.lib
+		local userData	= guildRoster
+		local raidData	= ns.raidRoster
+		local points 	= pointsTransactions
 		
 		local timer = lib.timer.new("bidMaster")
 
@@ -125,7 +126,8 @@ local BidHandler = {
 			for i, winner in ipairs(winners) do
 				
 				local user = userData.getPlayerData(winner.name)
-				user.points = user.points - winner.points
+
+				points.add(ns.points.transactions.itemWon(user, winner.points, bidItem))
 
 			end
 
